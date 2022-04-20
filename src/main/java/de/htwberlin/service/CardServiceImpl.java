@@ -1,28 +1,23 @@
 package de.htwberlin.service;
 
 import de.htwberlin.entity.Card;
+import de.htwberlin.entity.GameRule;
 
 public class CardServiceImpl implements CardService{
-
-
-    @Override
-    public int getCardRankAsInt(Card card) {
-        switch(card.getRank()){
-            case SEVEN: return 7;
-            case EIGHT: return 8;
-            case NINE: return 9;
-            case TEN: return 10;
-            case JACK: return 11;
-            case QUEEN: return 12;
-            case KING: return 13;
-            case ACE: return 14;
-            default:
-                return 0;
-        }
-    }
 
     @Override
     public String getCardAsString(Card card) {
         return card.getRank() + " " + card.getSymbol();
+    }
+
+    @Override
+    public GameRule CheckIfCardHasGameRule(Card card) {
+        switch(card.getRank()){
+            case SEVEN: return GameRule.NEXT_PLAYER_DRAWS_2_CARDS;
+            case EIGHT: return GameRule.NEXT_PLAYER_SITS_OUT;
+            case JACK: return GameRule.WISH_NEW_SYMBOL;
+            default:
+                return GameRule.NONE;
+        }
     }
 }

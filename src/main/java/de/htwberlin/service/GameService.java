@@ -4,22 +4,22 @@ import de.htwberlin.entity.Card;
 import de.htwberlin.entity.Game;
 
 /**
- * The interface Game service.
+ * The interface for Game service.
  */
 public interface GameService {
 
     /**
-     * Start new game game.
+     * Starts a new game.
      *
-     * @return the game
+     * @return configured game
      */
     Game startNewGame();
 
     /**
-     * Place card boolean.
+     * Place card on the game deck.
      *
      * @param card the card
-     * @return the boolean
+     * @return boolean which shows if the card placement was successful
      */
     Boolean placeCard(Card card);
 

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class Game {
 
+    public enum GameStatus { NOT_STARTED, ONGOING, PLAYER_1_WON, PLAYER_2_WON }
+
     final Player player1;
 
     final Player player2;
@@ -15,6 +17,6 @@ public class Game {
 
     ArrayList<Card> placedCardDeck;
 
-    String gameStatus;
+    GameStatus currentGameStatus;
 
 }
