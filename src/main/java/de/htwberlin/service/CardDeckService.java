@@ -1,27 +1,19 @@
 package de.htwberlin.service;
 
 import de.htwberlin.entity.Card;
-import de.htwberlin.entity.CardDeck;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The interface Card deck service.
  */
 public interface CardDeckService {
 
-    /**
-     * Gets a new deck.
-     *
-     * @return the new deck
-     */
-    CardDeck getNewFrenchDeck();
+    List<Card> shuffleDeck(List<Card> deck);
 
-    Card takeTopCard(CardDeck deck);
+    List<Card> getNewDeck();
 
-    /**
-     * Reshuffles the given deck of cards.
-     * @param deck the deck
-     * @return the card deck
-     */
-    CardDeck reshuffleDeck(CardDeck deck);
+    Optional<Card> takeTopCardOffDeck(List<Card> deck);
 
 }

@@ -1,18 +1,20 @@
 package de.htwberlin.entity;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Game {
 
     final Player player1;
 
     final Player player2;
 
-    ArrayList<Card> placedCards;
+    ArrayList<Card> cardDeck;
 
-    String GameStatus;
+    ArrayList<Card> placedCardDeck;
+
+    String gameStatus;
 
 }

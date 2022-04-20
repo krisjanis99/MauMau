@@ -3,8 +3,10 @@ package de.htwberlin;
 import de.htwberlin.entity.Card;
 import de.htwberlin.service.CardDeckService;
 import de.htwberlin.service.CardDeckServiceImpl;
+import de.htwberlin.service.CardService;
+import de.htwberlin.service.CardServiceImpl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class App 
 {
@@ -12,11 +14,12 @@ public class App
     public static void main( String[] args )
     {
         CardDeckService cardDeckService = new CardDeckServiceImpl();
+        CardService cardService = new CardServiceImpl();
 
-        ArrayList<Card> cards = cardDeckService.getNewFrenchDeck().getCards();
+        List<Card> cards = cardDeckService.getNewDeck();
 
-        for (int i = 0; i < cards.size(); i++){
-            System.out.println(cards.get(i).getRank() +  " " + cards.get(i).getSymbol());
+        for(int i = 0; i < cards.size(); i++){
+            System.out.println(cardService.getCardAsString(cards.get(i)));
         }
 
     }
