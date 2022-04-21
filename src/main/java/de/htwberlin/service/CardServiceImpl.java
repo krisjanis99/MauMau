@@ -13,7 +13,7 @@ public class CardServiceImpl implements CardService{
     @Override
     public GameRule CheckIfCardHasGameRule(Card card) {
         switch(card.getRank()){
-            case SEVEN: return GameRule.NEXT_PLAYER_DRAWS_2_CARDS;
+            case SEVEN: return GameRule.NEXT_PLAYER_DRAWS_CARDS;
             case EIGHT: return GameRule.NEXT_PLAYER_SITS_OUT;
             case JACK: return GameRule.WISH_NEW_SYMBOL;
             default:

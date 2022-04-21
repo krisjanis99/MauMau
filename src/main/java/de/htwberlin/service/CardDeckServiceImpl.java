@@ -27,13 +27,6 @@ public class CardDeckServiceImpl implements CardDeckService {
         return cards;
     }
 
-    @Override
-    public Optional<Card> takeTopCardOffDeck(List<Card> deck) {
-        Card topCard = deck.get(0);
-        deck.remove(topCard);
-        return Optional.of(topCard);
-    }
-
 }
 
 

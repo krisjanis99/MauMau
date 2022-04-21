@@ -1,7 +1,9 @@
 package de.htwberlin.service;
 
-import de.htwberlin.entity.Card;
 import de.htwberlin.entity.Game;
+import de.htwberlin.entity.Player;
+
+import java.util.List;
 
 /**
  * The interface for Game service.
@@ -9,18 +11,29 @@ import de.htwberlin.entity.Game;
 public interface GameService {
 
     /**
-     * Starts a new game.
+     * Starts and configures a new game.
      *
-     * @return configured game
+     * @param players the players which play the game
+     * @return a new configured game
      */
-    Game startNewGame();
+    Game startNewGame(List<Player> players);
 
     /**
-     * Place card on the game deck.
+     * Place card game.
      *
-     * @param card the card
-     * @return boolean which shows if the card placement was successful
+     * @param game the ongoing the game
+     * @return the game
      */
-    Boolean placeCard(Card card);
+    Game placeCard(Game game);
+
+
+    /**
+     * Take top card off hidden deck in the game.
+     *
+     * @param game the ongoing game
+     * @return changed game
+     */
+    Game takeTopCardOffDeck(Game game);
+
 
 }

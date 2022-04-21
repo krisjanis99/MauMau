@@ -7,6 +7,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Player {
 
+    int id;
+
+    String name;
+
     List<Card> playerCards;
 
     Boolean hasCalledMau;

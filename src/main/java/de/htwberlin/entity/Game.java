@@ -2,21 +2,25 @@ package de.htwberlin.entity;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class Game {
 
-    public enum GameStatus { NOT_STARTED, ONGOING, PLAYER_1_WON, PLAYER_2_WON }
+    final List<Player> playerList;
 
-    final Player player1;
+     List<Player> winnersRanked;
 
-    final Player player2;
+    Boolean gameEnded;
 
-    ArrayList<Card> cardDeck;
+    List<Card> cardDeck;
 
-    ArrayList<Card> placedCardDeck;
+    List<Card> placedCardDeck;
 
-    GameStatus currentGameStatus;
+    Player currentActivePlayer;
+
+    GameRule currentGameRule;
+
+    int cardsToDraw;
 
 }

@@ -8,11 +8,10 @@ import de.htwberlin.service.CardServiceImpl;
 
 import java.util.List;
 
-public class App 
-{
+public class App {
 
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ){
+
         CardDeckService cardDeckService = new CardDeckServiceImpl();
         CardService cardService = new CardServiceImpl();
 
