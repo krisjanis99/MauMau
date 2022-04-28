@@ -9,7 +9,7 @@ public class Game {
 
     final List<Player> playerList;
 
-     List<Player> winnersRanked;
+    List<Player> winnersRankedList;
 
     Boolean gameEnded;
 

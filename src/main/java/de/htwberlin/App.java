@@ -10,16 +10,18 @@ import java.util.List;
 
 public class App {
 
-    public static void main( String[] args ){
+    public static void main(String[] args) {
 
         CardDeckService cardDeckService = new CardDeckServiceImpl();
         CardService cardService = new CardServiceImpl();
 
         List<Card> cards = cardDeckService.getNewDeck();
 
-        for(int i = 0; i < cards.size(); i++){
+        for (int i = 0; i < cards.size(); i++) {
             System.out.println(cardService.getCardAsString(cards.get(i)));
+            System.out.println(cardService.checkIfCardHasGameRule(cards.get(i)));
         }
+
 
     }
 }

@@ -1,5 +1,6 @@
 package de.htwberlin.service;
 
+import de.htwberlin.entity.Card;
 import de.htwberlin.entity.Game;
 import de.htwberlin.entity.Player;
 
@@ -19,13 +20,13 @@ public interface GameService {
     Game startNewGame(List<Player> players);
 
     /**
-     * Place card game.
+     * Place card in the ongoing game.
      *
      * @param game the ongoing the game
-     * @return the game
+     * @param card the card to be placed
+     * @return the game with a placed card
      */
-    Game placeCard(Game game);
-
+    Game placeCard(Game game, Card card);
 
     /**
      * Take top card off hidden deck in the game.

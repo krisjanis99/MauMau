@@ -17,8 +17,9 @@ public interface CardDeckService {
      */
     List<Card> shuffleDeck(List<Card> deck);
 
+
     /**
-     * creates a new deck.
+     * creates a new (french) deck for the game
      *
      * @return the new deck
      */

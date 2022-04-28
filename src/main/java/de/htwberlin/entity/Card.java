@@ -9,13 +9,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Card {
 
-    public enum Symbol { CLUBS, DIAMONDS, HEARTS, SPADES; }
-
-    public enum Rank { SEVEN, EIGHT,
-        NINE, TEN, JACK, QUEEN, KING, ACE; }
-
     final Rank rank;
-
     final Symbol symbol;
+
+    public enum Symbol {CLUBS, DIAMONDS, HEARTS, SPADES;}
+
+    public enum Rank {
+        SEVEN, EIGHT,
+        NINE, TEN, JACK, QUEEN, KING, ACE;
+    }
 
 }

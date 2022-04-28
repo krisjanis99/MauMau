@@ -22,6 +22,6 @@ public interface CardService {
      * @param card the card
      * @return the game rule for the card
      */
-    GameRule CheckIfCardHasGameRule(Card card);
+    GameRule checkIfCardHasGameRule(Card card);
 
 }

@@ -1,6 +1,7 @@
 package de.htwberlin.service;
 
 
+import de.htwberlin.entity.Card;
 import de.htwberlin.entity.Game;
 import de.htwberlin.entity.Player;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class GameServiceImpl implements GameService{
+public class GameServiceImpl implements GameService {
 
 
     /**
@@ -22,16 +23,19 @@ public class GameServiceImpl implements GameService{
         return null;
     }
 
+
     /**
-     * Place card game.
+     * Place card in the ongoing game.
      *
      * @param game the ongoing the game
-     * @return the game
+     * @param card the card to be placed
+     * @return the game with a placed card
      */
     @Override
-    public Game placeCard(Game game) {
+    public Game placeCard(Game game, Card card) {
         return null;
     }
+
 
     /**
      * Take top card off hidden deck in the game.
