@@ -23,4 +23,9 @@ public class Game {
 
     int cardsToDraw;
 
+    Boolean currentDirectionIsClockwise;
+
+    Card.Symbol currentSymbol;
+
+    Card.Rank currentRank;
 }

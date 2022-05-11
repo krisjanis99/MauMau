@@ -29,6 +29,8 @@ public class CardServiceImpl implements CardService {
                 return GameRule.NEXT_PLAYER_DRAWS_CARDS;
             case EIGHT:
                 return GameRule.NEXT_PLAYER_SITS_OUT;
+            case TEN:
+                return GameRule.JOKER;
             case JACK:
                 return GameRule.WISH_NEW_SYMBOL;
             case NINE:
