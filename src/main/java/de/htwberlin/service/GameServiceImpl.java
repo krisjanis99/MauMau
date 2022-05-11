@@ -43,8 +43,35 @@ public class GameServiceImpl implements GameService {
      * @param game the ongoing game
      * @return changed game
      */
+
+
     @Override
     public Game takeTopCardOffDeck(Game game) {
         return null;
     }
+
+    /**
+     * check if a card can be placed on the the placed card deck
+     * @param card the card to be placed
+     * @param placedCardDeck the deck on which the card to be placed
+     * @return ture if the car can be placed on the placerdCardDeck, other than that then false
+     */
+   @Override
+   public boolean cardPlaceable(Card card,List<Card> placedCardDeck ){
+       Card lastCard = placedCardDeck.get(placedCardDeck.size()-1);
+       if ((card.getRank()==Card.Rank.JACK)&&(lastCard.getRank()==Card.Rank.JACK)){
+           return false;
+       }
+       else if(card.getRank()==lastCard.getRank()){
+           return true ;
+       }
+       else if(card.getRank()== Card.Rank.JACK){
+           return true;
+       }
+       else if(card.getRank()== Card.Rank.TEN){
+           return true ;
+       }
+
+    return false ;
+   }
 }

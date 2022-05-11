@@ -36,5 +36,13 @@ public interface GameService {
      */
     Game takeTopCardOffDeck(Game game);
 
+    /**
+     * check if a card can be placed on the the placed card deck
+     *
+     * @param card           the card to be placed
+     * @param placedCardDeck the deck on which the card to be placed
+     * @return ture if the car can be placed on the placerdCardDeck, other than that then false
+     */
+    boolean cardPlaceable(Card card, List<Card> placedCardDeck);
 
 }
