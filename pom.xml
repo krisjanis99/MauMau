@@ -6,9 +6,17 @@
 
   <groupId>de.htwberlin</groupId>
   <artifactId>MauMau</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>RulesetManagement</module>
+      <module>CardManagement</module>
+      <module>PlayerManagement</module>
+      <module>RulesetManagement</module>
+      <module>GameManagement</module>
+    </modules>
 
-  <name>MauMau</name>
+    <name>MauMau</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

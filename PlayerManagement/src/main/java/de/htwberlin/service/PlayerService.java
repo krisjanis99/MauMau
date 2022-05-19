@@ -1,5 +1,7 @@
 package de.htwberlin.service;
 
+import de.htwberlin.entity.Player;
+
 public interface PlayerService {
 
     /**

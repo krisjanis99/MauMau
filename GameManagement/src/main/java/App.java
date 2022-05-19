@@ -1,5 +1,3 @@
-package de.htwberlin;
-
 import de.htwberlin.entity.Card;
 import de.htwberlin.service.CardDeckService;
 import de.htwberlin.service.CardDeckServiceImpl;
