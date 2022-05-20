@@ -4,9 +4,10 @@ import de.htwberlin.entity.Card;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CardDeckServicesTests {
     CardDeckService cardDeckService;
@@ -24,10 +25,10 @@ public class CardDeckServicesTests {
 
         //when
         List<Card> deck1 = cardDeckService.shuffleDeck(deck);
-        List<Card> deck2 = cardDeckService.shuffleDeck(deck);
+        List<Card> deck2 = cardDeckService.shuffleDeck(deck1);
 
         //then
-        assertNotEquals(deck1, deck2);
+        assertNotEquals(deck1.get(1).getRank(), deck2.get(1).getRank());
     }
 
     @Test
@@ -44,15 +45,31 @@ public class CardDeckServicesTests {
     }
 
     @Test
-    public void getNewDeck_testNewDeckGenerated() {
+    public void getNewDeck_testdeckCorrect() {
         //given
-        List<Card> firstDeck = cardDeckService.getNewDeck();
+        List<Card.Rank> keys =
+                new ArrayList<Card.Rank>(EnumSet.allOf(Card.Rank.class));
+        List<Card.Symbol> values =
+                new ArrayList<Card.Symbol>(EnumSet.allOf(Card.Symbol.class));
 
         //When
-        List<Card> secondDeck = cardDeckService.getNewDeck();
+        List<Card> firstDeck = cardDeckService.getNewDeck();
+
+        Map<Card.Rank, List<Card.Symbol>> map = new HashMap<>();
+        for (int i = 0; i < firstDeck.size(); i++) {
+
+            map.computeIfAbsent(firstDeck.get(i).getRank(), k -> new ArrayList<>()).add(firstDeck.get(i).getSymbol());
+        }
 
         //then
-        assertNotEquals(firstDeck, secondDeck);
+
+        for (Card.Rank key : map.keySet()) {
+            assertTrue(keys.contains(key));
+        }
+        for (List<Card.Symbol> value : map.values()) {
+            assertTrue(values.equals(value));
+        }
+        assertTrue(map.size()==7);
 
     }
 
