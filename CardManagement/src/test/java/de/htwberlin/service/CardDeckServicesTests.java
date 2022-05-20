@@ -4,14 +4,12 @@ import de.htwberlin.entity.Card;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import static org.junit.Assert.*;
-
-
 import java.util.List;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class CardDeckServicesTests {
-    CardDeckService cardDeckService ;
+    CardDeckService cardDeckService;
 
     @Before
     public void initializeCardService() {
@@ -20,7 +18,7 @@ public class CardDeckServicesTests {
 
     // test needs to be editted
     @Test
-    public void shuffleDeck_testShuffleNotTheSame(){
+    public void shuffleDeck_testShuffleNotTheSame() {
         //given
         List<Card> deck = cardDeckService.getNewDeck();
 
@@ -29,6 +27,6 @@ public class CardDeckServicesTests {
         List<Card> deck2 = cardDeckService.shuffleDeck(deck);
 
         //then
-        assertArrayEquals(deck1.toArray(),deck2.toArray());
+        assertNotEquals(deck1, deck2);
     }
 }
