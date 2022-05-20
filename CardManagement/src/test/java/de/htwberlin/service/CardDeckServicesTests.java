@@ -29,4 +29,32 @@ public class CardDeckServicesTests {
         //then
         assertNotEquals(deck1, deck2);
     }
+
+    @Test
+    public void getNewDeck_testDeckNotEmpty() {
+        //given
+        List<Card> fullDeck = cardDeckService.getNewDeck();
+
+        //When
+        List<Card> emptyDeck = null;
+
+        //then
+        assertNotEquals(fullDeck, emptyDeck);
+
+    }
+
+    @Test
+    public void getNewDeck_testNewDeckGenerated() {
+        //given
+        List<Card> firstDeck = cardDeckService.getNewDeck();
+
+        //When
+        List<Card> secondDeck = cardDeckService.getNewDeck();
+
+        //then
+        assertNotEquals(firstDeck, secondDeck);
+
+    }
+
+
 }
