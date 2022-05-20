@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CardDeckServicesTests {
     CardDeckService cardDeckService;
@@ -17,7 +16,6 @@ public class CardDeckServicesTests {
         cardDeckService = new CardDeckServiceImpl();
     }
 
-    // test needs to be editted
     @Test
     public void shuffleDeck_testShuffleNotTheSame() {
         //given
@@ -25,10 +23,11 @@ public class CardDeckServicesTests {
 
         //when
         List<Card> deck1 = cardDeckService.shuffleDeck(deck);
-        List<Card> deck2 = cardDeckService.shuffleDeck(deck1);
+        List<Card> deck2 = cardDeckService.shuffleDeck(cardDeckService.shuffleDeck(deck1));
 
         //then
-        assertNotEquals(deck1.get(1).getRank(), deck2.get(1).getRank());
+        assertFalse((deck.get(1).getSymbol().equals(deck2.get(1).getSymbol())) || (deck.get(1).getRank().equals(deck2.get(1).getRank())));
+
     }
 
     @Test
@@ -69,7 +68,7 @@ public class CardDeckServicesTests {
         for (List<Card.Symbol> value : map.values()) {
             assertTrue(values.equals(value));
         }
-        assertTrue(map.size()==7);
+        assertTrue(map.size() == 7);
 
     }
 
