@@ -3,8 +3,9 @@ package de.htwberlin.service;
 import de.htwberlin.entity.Card;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class CardDeckServiceImpl implements CardDeckService {
 
@@ -17,8 +18,23 @@ public class CardDeckServiceImpl implements CardDeckService {
      */
     @Override
     public List<Card> shuffleDeck(List<Card> deck) {
-        Collections.shuffle(deck);
-        return deck;
+        Random r = new Random();
+        Card[] deckarray = new Card[deck.size()];
+        deck.toArray(deckarray);
+        // Start from the last element and swap one by one. We don't
+        // need to run for the first element that's why i > 0
+        for (int i = deckarray.length - 1; i > 0; i--) {
+
+            // Pick a random index from 0 to i
+            int j = r.nextInt(i);
+
+            // Swap arr[i] with the element at random index
+            Card temp = deckarray[i];
+            deckarray[i] = deckarray[j];
+            deckarray[j] = temp;
+
+        }
+        return Arrays.asList(deckarray);
     }
 
 
