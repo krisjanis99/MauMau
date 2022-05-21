@@ -2,10 +2,7 @@ package de.htwberlin.service;
 
 import de.htwberlin.entity.Card;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class CardDeckServiceImpl implements CardDeckService {
 
@@ -36,6 +33,7 @@ public class CardDeckServiceImpl implements CardDeckService {
         }
         return Arrays.asList(deckarray);
     }
+  
 
 
     /**
