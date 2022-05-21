@@ -7,6 +7,8 @@ import de.htwberlin.entity.Player;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Getter
 public class GameServiceImpl implements GameService {
@@ -74,4 +76,18 @@ public class GameServiceImpl implements GameService {
 
     return false ;
    }
+
+    /**
+     * Check if card has a game action.
+     *
+     * @param ruleset the imported Ruleset used in game
+     * @param card    the card
+     * @return the game rule for the card
+     */
+    @Override
+    public Optional<String> checkIfCardHasGameRule(Map<Card.Rank, String> ruleset, Card card) {
+        return Optional.ofNullable(ruleset.get(card.getRank()));
+    }
+
+
 }
