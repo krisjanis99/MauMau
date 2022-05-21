@@ -3,6 +3,7 @@ package de.htwberlin.entity;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class Game {
@@ -19,7 +20,9 @@ public class Game {
 
     Player currentActivePlayer;
 
-    GameRule currentGameRule;
+    Map<Card.Rank, String> GameRuleSet;
+
+    String currentGameRule;
 
     int cardsToDraw;
 
