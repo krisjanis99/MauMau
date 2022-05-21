@@ -9,13 +9,13 @@ import static java.util.Map.entry;
 
 public class GameRuleServiceImpl implements GameRuleService {
 
-    private static final Map<Card.Rank, String> CLASSIC_RULESET = Map.ofEntries(
+    private final Map<Card.Rank, String> CLASSIC_RULESET = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS;"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT;"),
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL;")
     );
 
-    private static final Map<Card.Rank, String> ADDITIONAL_RULESET = Map.ofEntries(
+    private final Map<Card.Rank, String> ADDITIONAL_RULESET = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS;"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT;"),
             entry(Card.Rank.NINE, "CHANGE_DIRECTION;"),
