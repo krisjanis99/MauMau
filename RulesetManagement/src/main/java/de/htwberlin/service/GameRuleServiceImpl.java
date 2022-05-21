@@ -1,6 +1,5 @@
 package de.htwberlin.service;
 
-
 import de.htwberlin.entity.Card;
 
 import java.util.Map;
