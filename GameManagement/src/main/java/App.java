@@ -1,6 +1,14 @@
-import de.htwberlin.entity.Card;
-import de.htwberlin.service.*;
+import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.export.CardDeckService;
+import de.htwberlin.cardManagement.export.CardService;
+import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
+import de.htwberlin.cardManagement.impl.CardServiceImpl;
+import de.htwberlin.rulesetManagement.export.GameRuleService;
+import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
+import de.htwberlin.gameManagement.export.GameService;
+import de.htwberlin.gameManagement.impl.GameServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +29,13 @@ public class App {
             System.out.println(cardService.getCardAsString(cards.get(i)));
             System.out.println(gameService.checkIfCardHasGameRule(currentRuleset, cards.get(i)));
         }
+
+        List<Card> newPlayerCard = new ArrayList<>();
+        cardDeckService.getNewDeck().stream().forEach(card ->{
+            if(newPlayerCard.size()!= 6){
+                newPlayerCard.add(card);
+            }
+        });
 
 
     }
