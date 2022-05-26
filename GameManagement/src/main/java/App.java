@@ -3,10 +3,10 @@ import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.cardManagement.export.CardService;
 import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
 import de.htwberlin.cardManagement.impl.CardServiceImpl;
-import de.htwberlin.rulesetManagement.export.GameRuleService;
-import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
+import de.htwberlin.rulesetManagement.export.GameRuleService;
+import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ public class App {
         }
 
         List<Card> newPlayerCard = new ArrayList<>();
-        cardDeckService.getNewDeck().stream().forEach(card ->{
-            if(newPlayerCard.size()!= 6){
+        cardDeckService.getNewDeck().stream().forEach(card -> {
+            if (newPlayerCard.size() != 6) {
                 newPlayerCard.add(card);
             }
         });

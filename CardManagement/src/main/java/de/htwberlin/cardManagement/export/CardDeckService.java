@@ -1,7 +1,5 @@
 package de.htwberlin.cardManagement.export;
 
-import de.htwberlin.cardManagement.export.Card;
-
 import java.util.List;
 
 /**

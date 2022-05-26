@@ -1,7 +1,7 @@
 package de.htwberlin.gameManagement.export;
 
-import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.entity.Player;
+import de.htwberlin.cardManagement.export.Card;
 
 import java.util.List;
 import java.util.Map;
@@ -15,10 +15,10 @@ public interface GameService {
     /**
      * Starts and configures a new game.
      *
-     * @param players the players which play the game
+     * @param players     the players which play the game
      * @param gameRuleSet the game rule set for the game
-     *      *0 - classic rules
-     *      *1 - additional rules
+     *                    *0 - classic rules
+     *                    *1 - additional rules
      * @return a new configured game
      */
     Optional<Game> startNewGame(List<Player> players, int gameRuleSet);
@@ -41,7 +41,7 @@ public interface GameService {
     Game takeTopCardOffDeck(Game game);
 
     /**
-     * check if a card can be placed on the the placed card deck
+     * check if a card can be placed on the placed card deck
      *
      * @param card           the card to be placed
      * @param placedCardDeck the deck on which the card to be placed
@@ -53,7 +53,7 @@ public interface GameService {
     /**
      * Check if card has a game action.
      *
-     * @param card the card
+     * @param card    the card
      * @param ruleset the imported Ruleset used in game
      * @return the game rule for the card
      */

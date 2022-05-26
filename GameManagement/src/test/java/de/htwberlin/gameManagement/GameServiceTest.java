@@ -1,4 +1,4 @@
-package de.htwberlin.gameManagement.service;
+package de.htwberlin.gameManagement;
 
 import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
@@ -38,7 +38,7 @@ public class GameServiceTest {
 
     }
 
-    Map<Card.Rank, String> getRuleSet () {
+    Map<Card.Rank, String> getRuleSet() {
         return Map.ofEntries(
                 entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
                 entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
@@ -46,13 +46,13 @@ public class GameServiceTest {
         );
     }
 
-    List<Player> getListOfPlayers(){
+    List<Player> getListOfPlayers() {
         Player player1 = new Player(1, "player1");
         Player player2 = new Player(2, "player2");
         return List.of(player1, player2);
     }
 
-    List<Card> getFullCardDeck(){
+    List<Card> getFullCardDeck() {
         List<Card> cards = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
@@ -136,7 +136,7 @@ public class GameServiceTest {
         Game result = gameService.placeCard(game, card);
 
         //then
-        assertEquals(result.getCardDeck().get(result.getCardDeck().size()-1), card);
+        assertEquals(result.getCardDeck().get(result.getCardDeck().size() - 1), card);
     }
 
     @Test
@@ -154,7 +154,7 @@ public class GameServiceTest {
         Game result = gameService.placeCard(game, card);
 
         //then
-        assertNotEquals(result.getCardDeck().get(result.getCardDeck().size()-1), card);
+        assertNotEquals(result.getCardDeck().get(result.getCardDeck().size() - 1), card);
     }
 
     @Test
@@ -163,7 +163,7 @@ public class GameServiceTest {
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
         Player activePlayer = playerList.get(0);
-        Card drawedCard = cards.get(cards.size()-1);
+        Card drawedCard = cards.get(cards.size() - 1);
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);

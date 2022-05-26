@@ -28,16 +28,15 @@ public class GameRuleServiceImpl implements GameRuleService {
      * Gets game rule set.
      *
      * @param gameRuleSet the game rule set
-     *0 - classic rules
-     *1 - additional rules
+     *                    0 - classic rules
+     *                    1 - additional rules
      * @return the chosen game rule set
      */
     @Override
     public Optional<Map<Card.Rank, String>> getGameRuleSet(int gameRuleSet) {
-        if(gameRuleSet == 0){
+        if (gameRuleSet == 0) {
             return Optional.of(CLASSIC_RULESET);
-        }
-        else if(gameRuleSet == 1){
+        } else if (gameRuleSet == 1) {
             return Optional.of(ADDITIONAL_RULESET);
         }
         return Optional.empty();
