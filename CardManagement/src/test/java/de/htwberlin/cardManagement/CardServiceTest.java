@@ -1,4 +1,4 @@
-package de.htwberlin.cardManagement.service;
+package de.htwberlin.cardManagement;
 
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardService;

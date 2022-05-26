@@ -1,9 +1,9 @@
 package de.htwberlin.gameManagement.impl;
 
 
+import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.gameManagement.export.Game;
-import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.gameManagement.export.GameService;
 import lombok.Getter;
 
@@ -56,7 +56,6 @@ public class GameServiceImpl implements GameService {
     }
 
 
-
     /**
      * check if a card can be placed on the the placed card deck
      *
@@ -69,7 +68,7 @@ public class GameServiceImpl implements GameService {
     public boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet) {
 
         return false;
-   }
+    }
 
     /**
      * Check if card has a game action.

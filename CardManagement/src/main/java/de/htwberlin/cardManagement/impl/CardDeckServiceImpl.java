@@ -3,7 +3,10 @@ package de.htwberlin.cardManagement.impl;
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class CardDeckServiceImpl implements CardDeckService {
 
@@ -34,7 +37,6 @@ public class CardDeckServiceImpl implements CardDeckService {
         }
         return Arrays.asList(deckarray);
     }
-  
 
 
     /**
