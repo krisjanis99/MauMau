@@ -18,14 +18,16 @@ public class GameServiceImpl implements GameService {
     /**
      * Starts and configures a new game.
      *
-     * @param players the players which play the game
+     * @param players     the players which play the game
+     * @param gameRuleSet the game rule set for the game
+     *                    *0 - classic rules
+     *                    *1 - additional rules
      * @return a new configured game
      */
     @Override
-    public Game startNewGame(List<Player> players) {
-        return null;
+    public Optional<Game> startNewGame(List<Player> players, int gameRuleSet) {
+        return Optional.empty();
     }
-
 
     /**
      * Place card in the ongoing game.
@@ -53,29 +55,20 @@ public class GameServiceImpl implements GameService {
         return null;
     }
 
+
+
     /**
      * check if a card can be placed on the the placed card deck
-     * @param card the card to be placed
+     *
+     * @param card           the card to be placed
      * @param placedCardDeck the deck on which the card to be placed
-     * @return ture if the car can be placed on the placerdCardDeck, other than that then false
+     * @param gameRuleSet    the used game rule set
+     * @return true if the card can be placed on the CardDeck, other than that then false
      */
-   @Override
-   public boolean cardPlaceable(Card card,List<Card> placedCardDeck ){
-       Card lastCard = placedCardDeck.get(placedCardDeck.size()-1);
-       if ((card.getRank()==Card.Rank.JACK)&&(lastCard.getRank()==Card.Rank.JACK)){
-           return false;
-       }
-       else if(card.getRank()==lastCard.getRank()){
-           return true ;
-       }
-       else if(card.getRank()== Card.Rank.JACK){
-           return true;
-       }
-       else if(card.getRank()== Card.Rank.TEN){
-           return true ;
-       }
+    @Override
+    public boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet) {
 
-    return false ;
+        return false;
    }
 
     /**

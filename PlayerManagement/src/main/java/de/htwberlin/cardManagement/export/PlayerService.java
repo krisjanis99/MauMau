@@ -11,8 +11,7 @@ public interface PlayerService {
      * create a new player
      *
      * @param name of the Player
-     * @param newPlayerCards beginning cards for the player
      * @return Player as a Object
      */
-    Optional<Player> createPlayer(String name, List<Card> newPlayerCards);
+    Optional<Player> createPlayer(String name);
 }

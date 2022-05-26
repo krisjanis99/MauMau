@@ -27,38 +27,27 @@ public class PlayerServiceTest {
     public void createPlayerTest_successfulPlayerCreation(){
 
         //given
-        List<Card> givenPlayerCards = new ArrayList<Card>();
-        givenPlayerCards.add(new Card(Card.Rank.EIGHT, Card.Symbol.CLUBS));
-        givenPlayerCards.add(new Card(Card.Rank.NINE, Card.Symbol.HEARTS));
-        givenPlayerCards.add(new Card(Card.Rank.TEN, Card.Symbol.CLUBS));
-        givenPlayerCards.add(new Card(Card.Rank.KING, Card.Symbol.DIAMONDS));
-        givenPlayerCards.add(new Card(Card.Rank.NINE, Card.Symbol.SPADES));
-        givenPlayerCards.add(new Card(Card.Rank.TEN, Card.Symbol.CLUBS));
-        String playerName = "jacky";
+        String playerName= "jacky";
 
         //when
-        Optional<Player> player = this.playerServiceImp.createPlayer(playerName, givenPlayerCards);
+        Optional<Player> player = this.playerServiceImp.createPlayer(playerName);
 
         //then
         assertTrue(player.isPresent());
         assertEquals( player.get().getName(), playerName);
-        assertEquals( player.get().getPlayerCards(), givenPlayerCards);
     }
 
     @Test
-    public void CountNewPlayerCardTest_notRightNumberOfCards(){
+    public void CountNewPlayerCardTest_checkIfPlayersHasDifferentIds(){
 
         //given
-        List<Card> givenPlayerCards = new ArrayList<Card>();
-        givenPlayerCards.add(new Card(Card.Rank.EIGHT, Card.Symbol.CLUBS));
-        givenPlayerCards.add(new Card(Card.Rank.NINE, Card.Symbol.HEARTS));
-        givenPlayerCards.add(new Card(Card.Rank.TEN, Card.Symbol.CLUBS));
         String playerName = "gladys";
 
         //when
-        Optional<Player> player = this.playerServiceImp.createPlayer(playerName, givenPlayerCards);
+        Optional<Player> player1 = this.playerServiceImp.createPlayer("gladys");
+        Optional<Player> player2 = this.playerServiceImp.createPlayer("jacky");
 
         //then
-        assertFalse( player.isPresent())  ;
+        assertNotEquals(player1.get().getId(), player2.get().getId());
     }
 }

@@ -3,18 +3,19 @@ package de.htwberlin.cardManagement.entity;
 import de.htwberlin.cardManagement.export.Card;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class Player {
 
-    int id;
+    final int id;
 
-    String name;
+    final String name;
 
     List<Card> playerCards;
 

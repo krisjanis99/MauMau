@@ -16,9 +16,12 @@ public interface GameService {
      * Starts and configures a new game.
      *
      * @param players the players which play the game
+     * @param gameRuleSet the game rule set for the game
+     *      *0 - classic rules
+     *      *1 - additional rules
      * @return a new configured game
      */
-    Game startNewGame(List<Player> players);
+    Optional<Game> startNewGame(List<Player> players, int gameRuleSet);
 
     /**
      * Place card in the ongoing game.
@@ -42,9 +45,10 @@ public interface GameService {
      *
      * @param card           the card to be placed
      * @param placedCardDeck the deck on which the card to be placed
-     * @return ture if the car can be placed on the placerdCardDeck, other than that then false
+     * @param gameRuleSet    the used game rule set
+     * @return true if the card can be placed on the CardDeck, other than that then false
      */
-    boolean cardPlaceable(Card card, List<Card> placedCardDeck);
+    boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet);
 
     /**
      * Check if card has a game action.

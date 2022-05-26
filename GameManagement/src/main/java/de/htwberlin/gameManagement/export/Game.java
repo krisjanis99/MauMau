@@ -2,12 +2,16 @@ package de.htwberlin.gameManagement.export;
 
 import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class Game {
 
     final List<Player> playerList;
