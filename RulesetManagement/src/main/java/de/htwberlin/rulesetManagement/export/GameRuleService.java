@@ -11,12 +11,11 @@ import java.util.Optional;
 public interface GameRuleService {
 
     /**
-     * Gets game rule set.
+     * Gets the requested game rule set.
      *
-     * @param gameRuleSet the game rule set
-     * 0 - classic rules
-     * 1 - additional rules
-     *
+     * @param gameRuleSet the game rule set. The selection happens through the int:
+     *                    0 - classic rules
+     *                    1 - additional rules
      * @return the chosen game rule set
      */
     Optional<Map<Card.Rank, String>> getGameRuleSet(int gameRuleSet);

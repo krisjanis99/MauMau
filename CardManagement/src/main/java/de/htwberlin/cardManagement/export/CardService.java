@@ -1,14 +1,12 @@
 package de.htwberlin.cardManagement.export;
 
-import de.htwberlin.cardManagement.export.Card;
-
 /**
  * The interface Card service.
  */
 public interface CardService {
 
     /**
-     * Gets card as string.
+     * Gets card as a string.
      *
      * @param card the card
      * @return the card as string
