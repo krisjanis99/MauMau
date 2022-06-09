@@ -1,10 +1,12 @@
 package de.htwberlin.gameManagement.impl;
 
 
+import com.google.inject.Inject;
 import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.gameManagement.export.Game;
 import de.htwberlin.gameManagement.export.GameService;
+import de.htwberlin.rulesetManagement.export.GameRuleService;
 import lombok.Getter;
 
 import java.util.List;
@@ -13,6 +15,9 @@ import java.util.Optional;
 
 @Getter
 public class GameServiceImpl implements GameService {
+
+    @Inject
+    GameRuleService gameRuleService;
 
 
     /**
@@ -26,6 +31,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Optional<Game> startNewGame(List<Player> players, int gameRuleSet) {
+        gameRuleService.getGameRuleSet(gameRuleSet);
         return Optional.empty();
     }
 
