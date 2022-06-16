@@ -10,7 +10,6 @@ import de.htwberlin.rulesetManagement.export.GameRuleService;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Getter
@@ -61,32 +60,6 @@ public class GameServiceImpl implements GameService {
         return null;
     }
 
-
-    /**
-     * check if a card can be placed on the the placed card deck
-     *
-     * @param card           the card to be placed
-     * @param placedCardDeck the deck on which the card to be placed
-     * @param gameRuleSet    the used game rule set
-     * @return true if the card can be placed on the CardDeck, other than that then false
-     */
-    @Override
-    public boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet) {
-
-        return false;
-    }
-
-    /**
-     * Check if card has a game action.
-     *
-     * @param ruleset the imported Ruleset used in game
-     * @param card    the card
-     * @return the game rule for the card
-     */
-    @Override
-    public Optional<String> checkIfCardHasGameRule(Map<Card.Rank, String> ruleset, Card card) {
-        return Optional.ofNullable(ruleset.get(card.getRank()));
-    }
 
 
 }

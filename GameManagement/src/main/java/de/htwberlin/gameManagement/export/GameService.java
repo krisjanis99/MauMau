@@ -40,23 +40,5 @@ public interface GameService {
      */
     Game takeTopCardOffDeck(Game game);
 
-    /**
-     * check if a card can be placed on the placed card deck
-     *
-     * @param card           the card to be placed
-     * @param placedCardDeck the deck on which the card to be placed
-     * @param gameRuleSet    the used game rule set
-     * @return true if the card can be placed on the CardDeck, other than that then false
-     */
-    boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet);
-
-    /**
-     * Check if card has a game action.
-     *
-     * @param card    the card
-     * @param ruleset the imported Ruleset used in game
-     * @return the game rule for the card
-     */
-    Optional<String> checkIfCardHasGameRule(Map<Card.Rank, String> ruleset, Card card);
 
 }

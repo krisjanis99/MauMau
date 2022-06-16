@@ -26,8 +26,6 @@ public class Game {
 
     Player currentActivePlayer;
 
-    Map<Card.Rank, String> GameRuleSet;
-
     String currentGameRule;
 
     int cardsToDraw;

@@ -74,7 +74,6 @@ public class GameServiceTest {
         List<Player> playerList = getListOfPlayers();
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
 
         //when
         Optional<Game> result = gameService.startNewGame(playerList, 1);
@@ -82,7 +81,6 @@ public class GameServiceTest {
         //then
         assertTrue(result.isPresent());
         assertEquals(playerList, result.get().getPlayerList());
-        assertEquals(gameRuleSet, result.get().getGameRuleSet());
         assertEquals(cards, result.get().getCardDeck());
     }
 
@@ -93,7 +91,6 @@ public class GameServiceTest {
         List<Player> playerList = null;
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
 
         //when
         Optional<Game> result = gameService.startNewGame(playerList, 5);
@@ -102,27 +99,6 @@ public class GameServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    public void cardPlaceable_CardCanBePlaced() {
-        //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
-        Card card = new Card(Card.Rank.TEN, Card.Symbol.DIAMONDS);
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
-
-        //when then
-        assertTrue(gameService.cardPlaceable(card, cards, gameRuleSet));
-    }
-
-    @Test
-    public void cardPlaceable_CardCannotBePlaced() {
-        //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
-        Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
-
-        //when then
-        assertFalse(gameService.cardPlaceable(card, cards, gameRuleSet));
-    }
 
     @Test
     public void placeCard_placingSuccessful() {
@@ -132,7 +108,6 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
         Game game = gameService.startNewGame(playerList, 1).get();
 
         //when
@@ -150,7 +125,6 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
         Game game = gameService.startNewGame(playerList, 1).get();
 
         //when
@@ -170,7 +144,6 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
         Game game = gameService.startNewGame(playerList, 1).get();
         game.setCurrentActivePlayer(activePlayer);
 
@@ -190,7 +163,6 @@ public class GameServiceTest {
         activePlayer.setPlayerCards(List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS)));
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        when(gameRuleServiceMock.getGameRuleSet(anyInt())).thenReturn(Optional.of(gameRuleSet));
         Game game = gameService.startNewGame(playerList, 1).get();
         game.setCurrentActivePlayer(activePlayer);
 
@@ -199,34 +171,6 @@ public class GameServiceTest {
 
         //then
         assertEquals(activePlayer.getPlayerCards(), result.getCurrentActivePlayer().getPlayerCards());
-    }
-
-    @Test
-    public void checkIfCardHasGameRule_testNonRuleCard() {
-        //given
-        Map<Card.Rank, String> ruleset = getRuleSet();
-        Card normalCard = new Card(Card.Rank.KING, Card.Symbol.CLUBS);
-
-        //when
-        Optional<String> rule = gameService.checkIfCardHasGameRule(ruleset, normalCard);
-
-        //then
-        assertTrue(rule.isEmpty());
-    }
-
-    @Test
-    public void checkIfCardHasGameRule_testRuleCard() {
-        //given
-        Map<Card.Rank, String> ruleset = getRuleSet();
-        Card ruleCard = new Card(Card.Rank.SEVEN, Card.Symbol.CLUBS);
-
-        //when
-        Optional<String> rule = gameService.checkIfCardHasGameRule(ruleset, ruleCard);
-
-        //then
-        assertTrue(rule.isPresent());
-        assertEquals("NEXT_PLAYER_DRAWS_CARDS", rule.get());
-
     }
 
 
