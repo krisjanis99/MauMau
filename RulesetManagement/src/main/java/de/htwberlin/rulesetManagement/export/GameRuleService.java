@@ -12,30 +12,26 @@ import java.util.Optional;
 public interface GameRuleService {
 
     /**
-     * Gets the requested game rule set.
+     * Gets the current used game rule set.
      *
-     * @param gameRuleSet the game rule set. The selection happens through the int:
-     *                    0 - classic rules
-     *                    1 - additional rules
-     * @return the chosen game rule set
+     * @return the active game rule set
      */
-    Optional<Map<Card.Rank, String>> getGameRuleSet(int gameRuleSet);
-
+    Map<Card.Rank, String> getActiveGameRuleset();
 
     /**
-     * check if a card can be placed on the placed card deck
+     * Checks if a Card is placeable in the game.
      *
-     * @param card           the card to be placed
-     * @param placedCardDeck the deck on which the card to be placed
-     * @param gameRuleSet    the used game rule set
-     * @return true if the card can be placed on the CardDeck, other than that then false
+     * @param card          the card
+     * @param currentSymbol the current symbol
+     * @param currentRank   the current rank
+     * @return the boolean which says if the card can be placed
      */
-    boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet);
+    boolean cardPlaceable(Card card, Card.Symbol currentSymbol, Card.Rank currentRank);
 
     /**
      * Check if card has a game action.
      *
-     * @param card    the card
+     * @param card the card
      * @return the game rule for the card
      */
     Optional<String> checkIfCardHasGameRule(Card card);

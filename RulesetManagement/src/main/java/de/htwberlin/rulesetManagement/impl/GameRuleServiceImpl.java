@@ -3,7 +3,6 @@ package de.htwberlin.rulesetManagement.impl;
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,13 +10,13 @@ import static java.util.Map.entry;
 
 public class GameRuleServiceImpl implements GameRuleService {
 
-    private final Map<Card.Rank, String> CLASSIC_RULESET = Map.ofEntries(
+    private final Map<Card.Rank, String> classicRuleset = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
     );
 
-    private final Map<Card.Rank, String> ADDITIONAL_RULESET = Map.ofEntries(
+    private final Map<Card.Rank, String> additionalRuleset = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
             entry(Card.Rank.NINE, "CHANGE_DIRECTION"),
@@ -25,34 +24,31 @@ public class GameRuleServiceImpl implements GameRuleService {
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
     );
 
+    private final Map<Card.Rank, String> activeGameRuleset = classicRuleset;
+
     /**
-     * Gets game rule set.
+     * Gets the current used game rule set.
      *
-     * @param gameRuleSet the game rule set
-     *                    0 - classic rules
-     *                    1 - additional rules
-     * @return the chosen game rule set
+     * @return the active game rule set
      */
     @Override
-    public Optional<Map<Card.Rank, String>> getGameRuleSet(int gameRuleSet) {
-        if (gameRuleSet == 0) {
-            return Optional.of(CLASSIC_RULESET);
-        } else if (gameRuleSet == 1) {
-            return Optional.of(ADDITIONAL_RULESET);
-        }
-        return Optional.empty();
+    public Map<Card.Rank, String> getActiveGameRuleset() {
+        return activeGameRuleset;
     }
 
     /**
-     * check if a card can be placed on the placed card deck
+     * Checks if a Card is placeable in the game.
      *
-     * @param card           the card to be placed
-     * @param placedCardDeck the deck on which the card to be placed
-     * @param gameRuleSet    the used game rule set
-     * @return true if the card can be placed on the CardDeck, other than that then false
+     * @param card          the card
+     * @param currentSymbol the current symbol
+     * @param currentRank   the current rank
+     * @return the boolean which says if the card can be placed
      */
     @Override
-    public boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet) {
+    public boolean cardPlaceable(Card card, Card.Symbol currentSymbol, Card.Rank currentRank) {
+        if (currentRank == card.getRank() || currentSymbol == card.getSymbol()){
+            return true;
+        }
         return false;
     }
 
@@ -64,6 +60,9 @@ public class GameRuleServiceImpl implements GameRuleService {
      */
     @Override
     public Optional<String> checkIfCardHasGameRule(Card card) {
+        if (activeGameRuleset.containsKey(card.getRank())){
+            return Optional.of(activeGameRuleset.get(card.getRank()));
+        }
         return Optional.empty();
     }
 }

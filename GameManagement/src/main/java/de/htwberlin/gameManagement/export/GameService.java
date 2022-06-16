@@ -16,12 +16,10 @@ public interface GameService {
      * Starts and configures a new game.
      *
      * @param players     the players which play the game
-     * @param gameRuleSet the game rule set for the game
-     *                    *0 - classic rules
-     *                    *1 - additional rules
+     *
      * @return a new configured game
      */
-    Optional<Game> startNewGame(List<Player> players, int gameRuleSet);
+    Optional<Game> startNewGame(List<Player> players);
 
     /**
      * Place card in the ongoing game.

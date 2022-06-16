@@ -76,7 +76,7 @@ public class GameServiceTest {
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
 
         //when
-        Optional<Game> result = gameService.startNewGame(playerList, 1);
+        Optional<Game> result = gameService.startNewGame(playerList);
 
         //then
         assertTrue(result.isPresent());
@@ -93,7 +93,7 @@ public class GameServiceTest {
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
 
         //when
-        Optional<Game> result = gameService.startNewGame(playerList, 5);
+        Optional<Game> result = gameService.startNewGame(playerList);
 
         //then
         assertTrue(result.isEmpty());
@@ -108,7 +108,7 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        Game game = gameService.startNewGame(playerList, 1).get();
+        Game game = gameService.startNewGame(playerList).get();
 
         //when
         Game result = gameService.placeCard(game, card);
@@ -125,7 +125,7 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        Game game = gameService.startNewGame(playerList, 1).get();
+        Game game = gameService.startNewGame(playerList).get();
 
         //when
         Game result = gameService.placeCard(game, card);
@@ -144,7 +144,7 @@ public class GameServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        Game game = gameService.startNewGame(playerList, 1).get();
+        Game game = gameService.startNewGame(playerList).get();
         game.setCurrentActivePlayer(activePlayer);
 
         //when
@@ -163,7 +163,7 @@ public class GameServiceTest {
         activePlayer.setPlayerCards(List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS)));
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
-        Game game = gameService.startNewGame(playerList, 1).get();
+        Game game = gameService.startNewGame(playerList).get();
         game.setCurrentActivePlayer(activePlayer);
 
         //when

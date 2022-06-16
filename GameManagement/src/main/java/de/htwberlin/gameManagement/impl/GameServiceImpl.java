@@ -4,6 +4,7 @@ package de.htwberlin.gameManagement.impl;
 import com.google.inject.Inject;
 import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.gameManagement.export.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
@@ -18,20 +19,37 @@ public class GameServiceImpl implements GameService {
     @Inject
     GameRuleService gameRuleService;
 
+    @Inject
+    CardDeckService cardDeckService;
+
 
     /**
      * Starts and configures a new game.
      *
      * @param players     the players which play the game
-     * @param gameRuleSet the game rule set for the game
-     *                    *0 - classic rules
-     *                    *1 - additional rules
      * @return a new configured game
      */
     @Override
-    public Optional<Game> startNewGame(List<Player> players, int gameRuleSet) {
-        gameRuleService.getGameRuleSet(gameRuleSet);
-        return Optional.empty();
+    public Optional<Game> startNewGame(List<Player> players) {
+
+        List<Card> gameCards = cardDeckService.getNewDeck();
+        gameCards = cardDeckService.shuffleDeck(gameCards);
+
+        //every player gets 6 cards
+        for (int i = 0; i<players.size(); i++){
+            List<Card> playerCards = gameCards.subList(0, 5);
+            gameCards.removeAll(playerCards);
+            players.get(i).setPlayerCards(playerCards);
+        }
+
+        Game game = new Game(players);
+        int randomPlayerIndex = (int) Math.random() * players.size();
+        game.setCurrentActivePlayer(players.get(randomPlayerIndex));
+        game.setCardDeck(gameCards);
+        game.setCurrentDirectionIsClockwise(true);
+        game.setCardsToDraw(0);
+        game.setGameEnded(false);
+        return Optional.of(game);
     }
 
     /**
@@ -48,18 +66,15 @@ public class GameServiceImpl implements GameService {
 
 
     /**
-     * Take top card off hidden deck in the game.
+     * Take top card off hidden deck in the game and
+     * gives it to the current active player.
      *
      * @param game the ongoing game
      * @return changed game
      */
-
-
     @Override
     public Game takeTopCardOffDeck(Game game) {
         return null;
     }
-
-
 
 }

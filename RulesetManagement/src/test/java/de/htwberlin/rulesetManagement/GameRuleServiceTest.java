@@ -59,11 +59,11 @@ public class GameRuleServiceTest {
         );
 
         //when
-        Optional<Map<Card.Rank, String>> result = gameRuleService.getGameRuleSet(0);
+        Map<Card.Rank, String> result = gameRuleService.getActiveGameRuleset();
 
         //then
-        assertTrue(result.isPresent());
-        assertEquals(result.get(), expectedResult);
+        assertNotNull(result);
+        assertEquals(result, expectedResult);
     }
 
     @Test
@@ -78,22 +78,11 @@ public class GameRuleServiceTest {
         );
 
         //when
-        Optional<Map<Card.Rank, String>> result = gameRuleService.getGameRuleSet(1);
+        Map<Card.Rank, String> result = gameRuleService.getActiveGameRuleset();
 
         //then
-        assertTrue(result.isPresent());
-        assertEquals(result.get(), expectedResult);
-    }
-
-    @Test
-    public void getGameRuleSet_notExistingRuleSet() {
-        //given
-
-        //when
-        Optional<Map<Card.Rank, String>> result = gameRuleService.getGameRuleSet(2);
-
-        //then
-        assertFalse(result.isPresent());
+        assertNotNull(result);
+        assertEquals(result, expectedResult);
     }
 
 
@@ -105,7 +94,7 @@ public class GameRuleServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
 
         //when then
-        assertTrue(gameRuleService.cardPlaceable(card, cards, gameRuleSet));
+        assertTrue(gameRuleService.cardPlaceable(card, cards));
     }
 
     @Test
@@ -116,7 +105,7 @@ public class GameRuleServiceTest {
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
 
         //when then
-        assertFalse(gameRuleService.cardPlaceable(card, cards, gameRuleSet));
+        assertFalse(gameRuleService.cardPlaceable(card, cards));
     }
 
     @Test
@@ -129,7 +118,7 @@ public class GameRuleServiceTest {
         Optional<String> rule = gameRuleService.checkIfCardHasGameRule(normalCard);
 
         //then
-        assertTrue(rule.isEmpty());
+        assertFalse(rule.isPresent());
     }
 
     @Test
