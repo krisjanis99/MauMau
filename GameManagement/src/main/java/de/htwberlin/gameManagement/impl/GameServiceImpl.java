@@ -61,7 +61,10 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game placeCard(Game game, Card card) {
-        return null;
+        List<Card> gameCards = game.getPlacedCardDeck();
+        gameCards.add(card);
+        game.setPlacedCardDeck(gameCards);
+        return game;
     }
 
 
@@ -74,7 +77,14 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game takeTopCardOffDeck(Game game) {
-        return null;
+        List<Card> cards = game.getCardDeck();
+        Card drawedCard = cards.get(cards.size()-1);
+        cards.remove(drawedCard);
+        game.setCardDeck(cards);
+        List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
+        playerCards.add(drawedCard);
+        game.getCurrentActivePlayer().setPlayerCards(playerCards);
+        return game;
     }
 
 }
