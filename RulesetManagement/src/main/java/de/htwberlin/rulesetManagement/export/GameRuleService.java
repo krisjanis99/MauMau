@@ -21,12 +21,12 @@ public interface GameRuleService {
     /**
      * Checks if a Card is placeable in the game.
      *
-     * @param card          the card
-     * @param currentSymbol the current symbol
-     * @param currentRank   the current rank
+     * @param card  the card
+     * @param cards list of card top be added on
      * @return the boolean which says if the card can be placed
      */
-    boolean cardPlaceable(Card card, Card.Symbol currentSymbol, Card.Rank currentRank);
+
+    boolean cardPlaceable(Card card, List<Card> cards);
 
     /**
      * Check if card has a game action.

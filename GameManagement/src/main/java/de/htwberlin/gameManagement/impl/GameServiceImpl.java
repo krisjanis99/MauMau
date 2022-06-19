@@ -9,13 +9,15 @@ import de.htwberlin.gameManagement.export.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 @Getter
 public class GameServiceImpl implements GameService {
-
+    private static final Logger logger = LogManager.getLogger(GameServiceImpl.class);
     @Inject
     GameRuleService gameRuleService;
 
@@ -26,7 +28,7 @@ public class GameServiceImpl implements GameService {
     /**
      * Starts and configures a new game.
      *
-     * @param players     the players which play the game
+     * @param players the players which play the game
      * @return a new configured game
      */
     @Override
@@ -36,19 +38,24 @@ public class GameServiceImpl implements GameService {
         gameCards = cardDeckService.shuffleDeck(gameCards);
 
         //every player gets 6 cards
-        for (int i = 0; i<players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             List<Card> playerCards = gameCards.subList(0, 5);
             gameCards.removeAll(playerCards);
             players.get(i).setPlayerCards(playerCards);
         }
+        logger.info("every player was assigned 6 cars");
 
         Game game = new Game(players);
-        int randomPlayerIndex = (int) Math.random() * players.size();
+        int factor = 100;
+        int i = (int) (Math.random() * factor);
+        int randomPlayerIndex = i * players.size();
         game.setCurrentActivePlayer(players.get(randomPlayerIndex));
         game.setCardDeck(gameCards);
         game.setCurrentDirectionIsClockwise(true);
         game.setCardsToDraw(0);
         game.setGameEnded(false);
+        logger.info("game is ready");
+
         return Optional.of(game);
     }
 
@@ -64,6 +71,7 @@ public class GameServiceImpl implements GameService {
         List<Card> gameCards = game.getPlacedCardDeck();
         gameCards.add(card);
         game.setPlacedCardDeck(gameCards);
+        logger.info("card was placed ");
         return game;
     }
 
@@ -78,11 +86,14 @@ public class GameServiceImpl implements GameService {
     @Override
     public Game takeTopCardOffDeck(Game game) {
         List<Card> cards = game.getCardDeck();
-        Card drawedCard = cards.get(cards.size()-1);
+        Card drawedCard = cards.get(cards.size() - 1);
+        logger.info(" card to be drawn found ");
         cards.remove(drawedCard);
+        logger.info(" card was taken ");
         game.setCardDeck(cards);
         List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
         playerCards.add(drawedCard);
+        logger.info("card wax added to the player cards ");
         game.getCurrentActivePlayer().setPlayerCards(playerCards);
         return game;
     }
