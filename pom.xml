@@ -13,6 +13,7 @@
         <module>PlayerManagement</module>
         <module>RulesetManagement</module>
         <module>GameManagement</module>
+        <module>configuration</module>
     </modules>
 
     <name>MauMau</name>
@@ -31,9 +32,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>5.1.0</version>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>2.15</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

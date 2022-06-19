@@ -37,7 +37,7 @@ public class GameServiceTest {
     @Before
     public void setup() {
 
-        gameService = new GameServiceImpl();
+        gameService = new GameServiceImpl(gameRuleServiceMock, cardDeckServiceMock);
 
     }
 

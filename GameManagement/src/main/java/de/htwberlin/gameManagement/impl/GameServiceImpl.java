@@ -1,7 +1,6 @@
 package de.htwberlin.gameManagement.impl;
 
 
-import com.google.inject.Inject;
 import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
@@ -11,6 +10,7 @@ import de.htwberlin.rulesetManagement.export.GameRuleService;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.picocontainer.annotations.Inject;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +18,17 @@ import java.util.Optional;
 @Getter
 public class GameServiceImpl implements GameService {
     private static final Logger logger = LogManager.getLogger(GameServiceImpl.class);
+
     @Inject
     GameRuleService gameRuleService;
 
     @Inject
     CardDeckService cardDeckService;
 
+    public GameServiceImpl(GameRuleService gameRuleService, CardDeckService cardDeckService) {
+        this.gameRuleService = gameRuleService;
+        this.cardDeckService = cardDeckService;
+    }
 
     /**
      * Starts and configures a new game.
