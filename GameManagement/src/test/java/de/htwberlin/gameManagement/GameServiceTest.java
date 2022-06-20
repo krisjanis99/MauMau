@@ -21,6 +21,7 @@ import java.util.Optional;
 import static java.util.Map.entry;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -74,6 +75,7 @@ public class GameServiceTest {
         List<Player> playerList = getListOfPlayers();
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
 
         //when
         Optional<Game> result = gameService.startNewGame(playerList);
@@ -91,6 +93,7 @@ public class GameServiceTest {
         List<Player> playerList = null;
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
 
         //when
         Optional<Game> result = gameService.startNewGame(playerList);
@@ -103,28 +106,32 @@ public class GameServiceTest {
     @Test
     public void placeCard_placingSuccessful() {
         //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.HEARTS));
+        List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
         Game game = gameService.startNewGame(playerList).get();
 
         //when
         Game result = gameService.placeCard(game, card);
 
         //then
-        assertEquals(result.getCardDeck().get(result.getCardDeck().size() - 1), card);
+        assertEquals(5, result.getCurrentActivePlayer().getPlayerCards().size());
+        assertEquals(18 , result.getCardDeck().size());
     }
 
     @Test
     public void placeCard_placingNotSuccessful() {
         //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
+        List<Card> cards = getFullCardDeck();
+        cards.add(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
         List<Player> playerList = getListOfPlayers();
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
         Game game = gameService.startNewGame(playerList).get();
 
         //when
@@ -140,10 +147,11 @@ public class GameServiceTest {
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
         Player activePlayer = playerList.get(0);
-        Card drawedCard = cards.get(cards.size() - 1);
+        Card drawnCard = cards.get(cards.size() - 1);
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         Card card = new Card(Card.Rank.TEN, Card.Symbol.SPADES);
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
         Game game = gameService.startNewGame(playerList).get();
         game.setCurrentActivePlayer(activePlayer);
 
@@ -151,27 +159,27 @@ public class GameServiceTest {
         Game result = gameService.takeTopCardOffDeck(game);
 
         //then
-        assertTrue(result.getCurrentActivePlayer().getPlayerCards().contains(drawedCard));
+        assertTrue(result.getCurrentActivePlayer().getPlayerCards().contains(drawnCard));
     }
 
     @Test
     public void takeTopCardOffDeck_deckIsEmptyAndNoCardsAreDrawed() {
         //given
-        List<Card> cards = List.of();
+        List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
         Player activePlayer = playerList.get(0);
-        activePlayer.setPlayerCards(List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS)));
         Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
         Game game = gameService.startNewGame(playerList).get();
-        game.setCurrentActivePlayer(activePlayer);
+        game.setCardDeck(new ArrayList<>());
 
         //when
         Game result = gameService.takeTopCardOffDeck(game);
 
         //then
-        assertEquals(activePlayer.getPlayerCards(), result.getCurrentActivePlayer().getPlayerCards());
+        assertTrue(game.getCardDeck().isEmpty());
+        assertEquals(game, result);
     }
-
 
 }

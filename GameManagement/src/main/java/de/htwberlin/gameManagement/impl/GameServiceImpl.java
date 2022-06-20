@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.picocontainer.annotations.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,26 +42,21 @@ public class GameServiceImpl implements GameService {
         List<Card> gameCards = cardDeckService.getNewDeck();
         gameCards = cardDeckService.shuffleDeck(gameCards);
 
-        //every player gets 6 cards
-        for (int i = 0; i < players.size(); i++) {
-            List<Card> playerCards = gameCards.subList(0, 5);
-            gameCards.removeAll(playerCards);
-            players.get(i).setPlayerCards(playerCards);
+        try {
+            for (Player player : players) {
+                List<Card> playerCards = new ArrayList<>(gameCards.subList(0, 5));
+                player.setPlayerCards(playerCards);
+                gameCards.removeAll(playerCards);
+            }
+
+            logger.info("every player was assigned 6 cards");
+            Game game = new Game(players, gameCards);
+            logger.info("game is ready");
+            return Optional.of(game);
+        } catch (NullPointerException e){
+            logger.error(String.format("Error while creating a new game: %s", e.getMessage()));
         }
-        logger.info("every player was assigned 6 cars");
-
-        Game game = new Game(players);
-        int factor = 100;
-        int i = (int) (Math.random() * factor);
-        int randomPlayerIndex = i * players.size();
-        game.setCurrentActivePlayer(players.get(randomPlayerIndex));
-        game.setCardDeck(gameCards);
-        game.setCurrentDirectionIsClockwise(true);
-        game.setCardsToDraw(0);
-        game.setGameEnded(false);
-        logger.info("game is ready");
-
-        return Optional.of(game);
+        return Optional.empty();
     }
 
     /**
@@ -89,16 +85,21 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game takeTopCardOffDeck(Game game) {
+
         List<Card> cards = game.getCardDeck();
-        Card drawedCard = cards.get(cards.size() - 1);
-        logger.info(" card to be drawn found ");
-        cards.remove(drawedCard);
-        logger.info(" card was taken ");
-        game.setCardDeck(cards);
-        List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
-        playerCards.add(drawedCard);
-        logger.info("card wax added to the player cards ");
-        game.getCurrentActivePlayer().setPlayerCards(playerCards);
+        if (!cards.isEmpty()){
+            Card drawnCard = cards.get(cards.size() - 1);
+            logger.info(" card to be drawn found ");
+            cards.remove(drawnCard);
+            logger.info(" card was taken ");
+            game.setCardDeck(cards);
+            List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
+            playerCards.add(drawnCard);
+            logger.info("card wax added to the player cards ");
+            game.getCurrentActivePlayer().setPlayerCards(playerCards);
+            return game;
+        }
+        logger.info("No cards left in current Deck. Game is returned unchanged");
         return game;
     }
 
