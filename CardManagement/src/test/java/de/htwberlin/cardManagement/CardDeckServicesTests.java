@@ -28,8 +28,9 @@ public class CardDeckServicesTests {
         List<Card> deck2 = cardDeckService.shuffleDeck(cardDeckService.shuffleDeck(deck1));
 
         //then
-        assertFalse((deck.get(1).getSymbol().equals(deck2.get(1).getSymbol())) || (deck.get(1).getRank().equals(deck2.get(1).getRank())));
-
+        //assertFalse((deck.get(1).getSymbol().equals(deck2.get(1).getSymbol())) || (deck.get(1).getRank().equals(deck2.get(1).getRank())));
+        assertNotEquals(deck, deck1);
+        assertNotEquals(deck, deck2);
     }
 
     @Test

@@ -12,10 +12,6 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.AnnotatedFieldInjection;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 public class Configuration {
 
     private static MutablePicoContainer container = new DefaultPicoContainer(
