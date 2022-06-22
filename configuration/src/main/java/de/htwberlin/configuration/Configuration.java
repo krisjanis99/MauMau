@@ -8,6 +8,8 @@ import de.htwberlin.cardManagement.impl.PlayerServiceImpl;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
+import export.MauMauUi;
+import impl.MauMauUiController;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.injectors.AnnotatedFieldInjection;
@@ -19,7 +21,7 @@ public class Configuration {
 
     public static void main(String[] args) {
         registerComponents();
-        //container.getComponent(App.class).run();
+        container.getComponent(MauMauUi.class).run();
     }
 
     private static void registerComponents() {
@@ -28,6 +30,7 @@ public class Configuration {
         container.addComponent(GameServiceImpl.class);
         container.addComponent(PlayerServiceImpl.class);
         container.addComponent(GameRuleServiceImpl.class);
+        container.addComponent(MauMauUiController.class);
     }
 
 

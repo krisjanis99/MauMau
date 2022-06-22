@@ -14,6 +14,7 @@
         <module>RulesetManagement</module>
         <module>GameManagement</module>
         <module>configuration</module>
+        <module>MauMauUi</module>
     </modules>
 
     <name>MauMau</name>
