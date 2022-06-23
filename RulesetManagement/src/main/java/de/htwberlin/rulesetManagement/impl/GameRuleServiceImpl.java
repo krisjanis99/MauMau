@@ -5,7 +5,6 @@ import de.htwberlin.rulesetManagement.export.GameRuleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class GameRuleServiceImpl implements GameRuleService {
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
     );
 
-    private final Map<Card.Rank, String> activeGameRuleset = classicRuleset;
+    private final Map<Card.Rank, String> activeGameRuleset = additionalRuleset;
 
     /**
      * Gets the current used game rule set.
@@ -44,19 +43,15 @@ public class GameRuleServiceImpl implements GameRuleService {
     /**
      * Checks if a Card is placeable in the game.
      *
-     * @param card  the card
-     * @param cards list of card top be added on
+     * @param card   the card
+     * @param rank   the current game rank
+     * @param symbol the current game symbol
      * @return the boolean which says if the card can be placed
      */
     @Override
-    public boolean cardPlaceable(Card card, List<Card> cards) {
-        logger.info("getting the top card ");
-        Card topCard = cards.get(cards.size() - 1);
-        logger.info("determining the symbol and rank of top card ");
-        Card.Symbol currentSymbol = topCard.getSymbol();
-        Card.Rank currentRank = topCard.getRank();
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) {
         logger.info("checking if the card can be placed ");
-        if (currentRank == card.getRank() || currentSymbol == card.getSymbol()) {
+        if (rank == card.getRank() || symbol == card.getSymbol()) {
             return true;
         }
         return false;

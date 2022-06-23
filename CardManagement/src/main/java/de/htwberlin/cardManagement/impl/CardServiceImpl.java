@@ -4,7 +4,6 @@ import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardService;
 
 
-
 public class CardServiceImpl implements CardService {
 
     /**

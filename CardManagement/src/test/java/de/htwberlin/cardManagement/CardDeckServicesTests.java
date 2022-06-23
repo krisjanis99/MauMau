@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CardDeckServicesTests {
     CardDeckService cardDeckService;
@@ -64,7 +65,6 @@ public class CardDeckServicesTests {
         }
 
         //then
-
         for (Card.Rank key : map.keySet()) {
             assertTrue(keys.contains(key));
         }

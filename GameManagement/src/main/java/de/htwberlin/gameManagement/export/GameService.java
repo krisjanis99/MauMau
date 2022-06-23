@@ -4,7 +4,6 @@ import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,8 +14,7 @@ public interface GameService {
     /**
      * Starts and configures a new game.
      *
-     * @param players     the players which play the game
-     *
+     * @param players the players which play the game
      * @return a new configured game
      */
     Optional<Game> startNewGame(List<Player> players);
@@ -31,12 +29,19 @@ public interface GameService {
     Game placeCard(Game game, Card card);
 
     /**
-     * Take top card off hidden deck in the game.
+     * Take top card off hidden deck in the game and gives it to the current active Player.
      *
      * @param game the ongoing game
      * @return changed game
      */
     Game takeTopCardOffDeck(Game game);
 
+    /**
+     * Changes the current player to the next one in the list.
+     *
+     * @param game the ongoing game
+     * @return changed game
+     */
+    Game switchToNextPlayer(Game game);
 
 }

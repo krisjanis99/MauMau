@@ -6,7 +6,6 @@ import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.gameManagement.export.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
-import de.htwberlin.rulesetManagement.export.GameRuleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,15 +19,12 @@ import java.util.Optional;
 
 import static java.util.Map.entry;
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameServiceTest {
-
-    @Mock
-    private GameRuleService gameRuleServiceMock;
 
     @Mock
     private CardDeckService cardDeckServiceMock;
@@ -38,7 +34,7 @@ public class GameServiceTest {
     @Before
     public void setup() {
 
-        gameService = new GameServiceImpl(gameRuleServiceMock, cardDeckServiceMock);
+        gameService = new GameServiceImpl(cardDeckServiceMock);
 
     }
 
@@ -73,7 +69,6 @@ public class GameServiceTest {
         //given
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
         when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
 
@@ -81,9 +76,11 @@ public class GameServiceTest {
         Optional<Game> result = gameService.startNewGame(playerList);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertTrue(result.isPresent());
         assertEquals(playerList, result.get().getPlayerList());
-        assertEquals(cards, result.get().getCardDeck());
+        assertEquals(cards.size() - 10, result.get().getCardDeck().size());
     }
 
     @Test
@@ -99,6 +96,8 @@ public class GameServiceTest {
         Optional<Game> result = gameService.startNewGame(playerList);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertTrue(result.isEmpty());
     }
 
@@ -118,8 +117,10 @@ public class GameServiceTest {
         Game result = gameService.placeCard(game, card);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertEquals(5, result.getCurrentActivePlayer().getPlayerCards().size());
-        assertEquals(18 , result.getCardDeck().size());
+        assertEquals(18, result.getCardDeck().size());
     }
 
     @Test
@@ -138,6 +139,8 @@ public class GameServiceTest {
         Game result = gameService.placeCard(game, card);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertNotEquals(result.getCardDeck().get(result.getCardDeck().size() - 1), card);
     }
 
@@ -159,6 +162,8 @@ public class GameServiceTest {
         Game result = gameService.takeTopCardOffDeck(game);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertTrue(result.getCurrentActivePlayer().getPlayerCards().contains(drawnCard));
     }
 
@@ -167,8 +172,6 @@ public class GameServiceTest {
         //given
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
-        Player activePlayer = playerList.get(0);
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
         when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
         when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
         Game game = gameService.startNewGame(playerList).get();
@@ -178,8 +181,56 @@ public class GameServiceTest {
         Game result = gameService.takeTopCardOffDeck(game);
 
         //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
         assertTrue(game.getCardDeck().isEmpty());
         assertEquals(game, result);
+    }
+
+    @Test
+    public void switchToNextPlayer_switchClockwiseSuccessful() {
+        //given
+        List<Card> cards = getFullCardDeck();
+        List<Player> playerList = getListOfPlayers();
+        Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
+        when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
+        Game game = gameService.startNewGame(playerList).get();
+        Player lastPlayer = playerList.get(0);
+        game.setCurrentActivePlayer(lastPlayer);
+        game.setCurrentDirectionIsClockwise(true);
+
+        //when
+        Game result = gameService.switchToNextPlayer(game);
+
+        //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
+        assertNotEquals(lastPlayer, game.getCurrentActivePlayer());
+        assertEquals(playerList.indexOf(game.getCurrentActivePlayer()), 1);
+    }
+
+    @Test
+    public void switchToNextPlayer_switchAntiClockwiseSuccessful() {
+        //given
+        List<Card> cards = getFullCardDeck();
+        List<Player> playerList = getListOfPlayers();
+        Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
+        when(cardDeckServiceMock.getNewDeck()).thenReturn(cards);
+        when(cardDeckServiceMock.shuffleDeck(anyList())).thenReturn(cards);
+        Game game = gameService.startNewGame(playerList).get();
+        Player lastPlayer = playerList.get(1);
+        game.setCurrentActivePlayer(lastPlayer);
+        game.setCurrentDirectionIsClockwise(false);
+
+        //when
+        Game result = gameService.switchToNextPlayer(game);
+
+        //then
+        verify(cardDeckServiceMock).getNewDeck();
+        verify(cardDeckServiceMock).shuffleDeck(anyList());
+        assertNotEquals(lastPlayer, game.getCurrentActivePlayer());
+        assertEquals(playerList.indexOf(game.getCurrentActivePlayer()), 0);
     }
 
 }

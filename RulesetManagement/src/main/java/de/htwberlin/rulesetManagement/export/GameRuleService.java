@@ -2,7 +2,6 @@ package de.htwberlin.rulesetManagement.export;
 
 import de.htwberlin.cardManagement.export.Card;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,12 +20,12 @@ public interface GameRuleService {
     /**
      * Checks if a Card is placeable in the game.
      *
-     * @param card  the card
-     * @param cards list of card top be added on
+     * @param card   the card
+     * @param rank   the current game rank
+     * @param symbol the current game symbol
      * @return the boolean which says if the card can be placed
      */
-
-    boolean cardPlaceable(Card card, List<Card> cards);
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank);
 
     /**
      * Check if card has a game action.

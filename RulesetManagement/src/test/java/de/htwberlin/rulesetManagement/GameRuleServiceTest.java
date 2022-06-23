@@ -1,12 +1,10 @@
 package de.htwberlin.rulesetManagement;
 
 import de.htwberlin.cardManagement.export.Card;
-import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,6 @@ import static org.junit.Assert.*;
 public class GameRuleServiceTest {
 
     private GameRuleService gameRuleService;
-
-    @Mock
-    private CardDeckService cardDeckServiceMock;
-
 
     @Before
     public void setup() {
@@ -89,23 +83,19 @@ public class GameRuleServiceTest {
     @Test
     public void cardPlaceable_CardCanBePlaced() {
         //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
         Card card = new Card(Card.Rank.TEN, Card.Symbol.DIAMONDS);
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
 
         //when then
-        assertTrue(gameRuleService.cardPlaceable(card, cards));
+        assertTrue(gameRuleService.cardPlaceable(card, Card.Symbol.DIAMONDS, Card.Rank.NINE));
     }
 
     @Test
     public void cardPlaceable_CardCannotBePlaced() {
         //given
-        List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
-        Map<Card.Rank, String> gameRuleSet = getRuleSet();
 
         //when then
-        assertFalse(gameRuleService.cardPlaceable(card, cards));
+        assertFalse(gameRuleService.cardPlaceable(card, Card.Symbol.DIAMONDS, Card.Rank.EIGHT));
     }
 
     @Test
@@ -133,7 +123,6 @@ public class GameRuleServiceTest {
         //then
         assertTrue(rule.isPresent());
         assertEquals("NEXT_PLAYER_DRAWS_CARDS", rule.get());
-
     }
 
 }

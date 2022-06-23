@@ -6,7 +6,6 @@ import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.gameManagement.export.Game;
 import de.htwberlin.gameManagement.export.GameService;
-import de.htwberlin.rulesetManagement.export.GameRuleService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,9 +24,6 @@ public class GameServiceImpl implements GameService {
     private static final Logger logger = LogManager.getLogger(GameServiceImpl.class);
 
     @Inject
-    GameRuleService gameRuleService;
-
-    @Inject
     CardDeckService cardDeckService;
 
     /**
@@ -39,21 +35,27 @@ public class GameServiceImpl implements GameService {
     @Override
     public Optional<Game> startNewGame(List<Player> players) {
 
-        List<Card> gameCards = cardDeckService.getNewDeck();
+        List<Card> gameCards = new ArrayList<>(cardDeckService.getNewDeck());
         gameCards = cardDeckService.shuffleDeck(gameCards);
 
         try {
             for (Player player : players) {
                 List<Card> playerCards = new ArrayList<>(gameCards.subList(0, 5));
                 player.setPlayerCards(playerCards);
-                gameCards.removeAll(playerCards);
+                gameCards = gameCards.subList(5, gameCards.size());
             }
 
-            logger.info("every player was assigned 6 cards");
+
+            logger.info("every player was assigned 5 cards");
             Game game = new Game(players, gameCards);
             logger.info("game is ready");
+
+            placeCard(game, gameCards.get(gameCards.size() - 1));
+            game.setCardDeck(gameCards);
+            logger.info("First card was placed");
+
             return Optional.of(game);
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             logger.error(String.format("Error while creating a new game: %s", e.getMessage()));
         }
         return Optional.empty();
@@ -71,7 +73,13 @@ public class GameServiceImpl implements GameService {
         List<Card> gameCards = game.getPlacedCardDeck();
         gameCards.add(card);
         game.setPlacedCardDeck(gameCards);
+        game.setCurrentSymbol(card.getSymbol());
+        game.setCurrentRank(card.getRank());
         logger.info("card was placed ");
+        List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
+        playerCards.remove(card);
+        game.getCurrentActivePlayer().setPlayerCards(playerCards);
+        logger.info("The card was removed from a player if he placed it.");
         return game;
     }
 
@@ -87,10 +95,10 @@ public class GameServiceImpl implements GameService {
     public Game takeTopCardOffDeck(Game game) {
 
         List<Card> cards = game.getCardDeck();
-        if (!cards.isEmpty()){
+        if (!cards.isEmpty()) {
             Card drawnCard = cards.get(cards.size() - 1);
             logger.info(" card to be drawn found ");
-            cards.remove(drawnCard);
+            cards = cards.subList(0, cards.size() - 1);
             logger.info(" card was taken ");
             game.setCardDeck(cards);
             List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
@@ -100,6 +108,31 @@ public class GameServiceImpl implements GameService {
             return game;
         }
         logger.info("No cards left in current Deck. Game is returned unchanged");
+        return game;
+    }
+
+    /**
+     * Changes the current player to the next one in the list.
+     *
+     * @param game the ongoing game
+     * @return changed game
+     */
+    @Override
+    public Game switchToNextPlayer(Game game) {
+        int currentPlayerIndex = game.getPlayerList().indexOf(game.getCurrentActivePlayer());
+        if (game.getCurrentDirectionIsClockwise()) {
+            if (currentPlayerIndex == game.getPlayerList().size() - 1) {
+                game.setCurrentActivePlayer(game.getPlayerList().get(0));
+            } else {
+                game.setCurrentActivePlayer(game.getPlayerList().get(currentPlayerIndex + 1));
+            }
+        } else {
+            if (currentPlayerIndex == 0) {
+                game.setCurrentActivePlayer(game.getPlayerList().get(game.getPlayerList().size() - 1));
+            } else {
+                game.setCurrentActivePlayer(game.getPlayerList().get(currentPlayerIndex - 1));
+            }
+        }
         return game;
     }
 
