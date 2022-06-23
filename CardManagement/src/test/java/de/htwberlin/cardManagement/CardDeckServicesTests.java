@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class CardDeckServicesTests {
     CardDeckService cardDeckService;
@@ -28,8 +29,9 @@ public class CardDeckServicesTests {
         List<Card> deck2 = cardDeckService.shuffleDeck(cardDeckService.shuffleDeck(deck1));
 
         //then
-        assertFalse((deck.get(1).getSymbol().equals(deck2.get(1).getSymbol())) || (deck.get(1).getRank().equals(deck2.get(1).getRank())));
-
+        //assertFalse((deck.get(1).getSymbol().equals(deck2.get(1).getSymbol())) || (deck.get(1).getRank().equals(deck2.get(1).getRank())));
+        assertNotEquals(deck, deck1);
+        assertNotEquals(deck, deck2);
     }
 
     @Test
@@ -63,7 +65,6 @@ public class CardDeckServicesTests {
         }
 
         //then
-
         for (Card.Rank key : map.keySet()) {
             assertTrue(keys.contains(key));
         }

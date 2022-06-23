@@ -2,14 +2,17 @@ package de.htwberlin.cardManagement.impl;
 
 import de.htwberlin.cardManagement.export.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class CardDeckServiceImpl implements CardDeckService {
 
+public class CardDeckServiceImpl implements CardDeckService {
+    private static final Logger logger = LogManager.getLogger(CardDeckServiceImpl.class);
 
     /**
      * Shuffles given deck of cards.
@@ -22,6 +25,8 @@ public class CardDeckServiceImpl implements CardDeckService {
         Random r = new Random();
         Card[] deckarray = new Card[deck.size()];
         deck.toArray(deckarray);
+        logger.info("Deck array was created and shuflling is initiated");
+
         // Start from the last element and swap one by one. We don't
         // need to run for the first element that's why i > 0
         for (int i = deckarray.length - 1; i > 0; i--) {
@@ -35,6 +40,7 @@ public class CardDeckServiceImpl implements CardDeckService {
             deckarray[j] = temp;
 
         }
+        logger.info("deck was shuffeled");
         return Arrays.asList(deckarray);
     }
 
@@ -47,11 +53,17 @@ public class CardDeckServiceImpl implements CardDeckService {
     @Override
     public List<Card> getNewDeck() {
         List<Card> cards = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 7; j++) {
-                cards.add(new Card(Card.Rank.values()[j], Card.Symbol.values()[i]));
+        try {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 7; j++) {
+                    cards.add(new Card(Card.Rank.values()[j], Card.Symbol.values()[i]));
+                }
             }
+            logger.info("Card deck was created");
+        } catch (Exception e) {
+            logger.fatal("deck couldn't be created");
         }
+
         return cards;
     }
 

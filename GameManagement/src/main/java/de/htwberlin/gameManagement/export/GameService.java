@@ -4,7 +4,6 @@ import de.htwberlin.cardManagement.entity.Player;
 import de.htwberlin.cardManagement.export.Card;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,13 +14,10 @@ public interface GameService {
     /**
      * Starts and configures a new game.
      *
-     * @param players     the players which play the game
-     * @param gameRuleSet the game rule set for the game
-     *                    *0 - classic rules
-     *                    *1 - additional rules
+     * @param players the players which play the game
      * @return a new configured game
      */
-    Optional<Game> startNewGame(List<Player> players, int gameRuleSet);
+    Optional<Game> startNewGame(List<Player> players);
 
     /**
      * Place card in the ongoing game.
@@ -33,7 +29,7 @@ public interface GameService {
     Game placeCard(Game game, Card card);
 
     /**
-     * Take top card off hidden deck in the game.
+     * Take top card off hidden deck in the game and gives it to the current active Player.
      *
      * @param game the ongoing game
      * @return changed game
@@ -41,22 +37,11 @@ public interface GameService {
     Game takeTopCardOffDeck(Game game);
 
     /**
-     * check if a card can be placed on the placed card deck
+     * Changes the current player to the next one in the list.
      *
-     * @param card           the card to be placed
-     * @param placedCardDeck the deck on which the card to be placed
-     * @param gameRuleSet    the used game rule set
-     * @return true if the card can be placed on the CardDeck, other than that then false
+     * @param game the ongoing game
+     * @return changed game
      */
-    boolean cardPlaceable(Card card, List<Card> placedCardDeck, Map<Card.Rank, String> gameRuleSet);
-
-    /**
-     * Check if card has a game action.
-     *
-     * @param card    the card
-     * @param ruleset the imported Ruleset used in game
-     * @return the game rule for the card
-     */
-    Optional<String> checkIfCardHasGameRule(Map<Card.Rank, String> ruleset, Card card);
+    Game switchToNextPlayer(Game game);
 
 }
