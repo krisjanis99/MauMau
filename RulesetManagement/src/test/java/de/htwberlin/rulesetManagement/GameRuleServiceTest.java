@@ -88,6 +88,7 @@ public class GameRuleServiceTest {
 
     @Test
     public void cardPlaceable_CardCanBePlaced() {
+
         //given
         List<Card> cards = List.of(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));
         Card card = new Card(Card.Rank.TEN, Card.Symbol.DIAMONDS);

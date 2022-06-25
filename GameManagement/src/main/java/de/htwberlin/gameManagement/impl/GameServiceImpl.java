@@ -18,6 +18,8 @@ import java.util.Optional;
 @Getter
 public class GameServiceImpl implements GameService {
     private static final Logger logger = LogManager.getLogger(GameServiceImpl.class);
+
+
     @Inject
     GameRuleService gameRuleService;
 
@@ -33,6 +35,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Optional<Game> startNewGame(List<Player> players) {
+
 
         List<Card> gameCards = cardDeckService.getNewDeck();
         gameCards = cardDeckService.shuffleDeck(gameCards);
@@ -68,6 +71,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game placeCard(Game game, Card card) {
+
         List<Card> gameCards = game.getPlacedCardDeck();
         gameCards.add(card);
         game.setPlacedCardDeck(gameCards);

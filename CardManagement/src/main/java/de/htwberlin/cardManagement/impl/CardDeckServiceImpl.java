@@ -14,6 +14,7 @@ import java.util.Random;
 public class CardDeckServiceImpl implements CardDeckService {
     private static final Logger logger = LogManager.getLogger(CardDeckServiceImpl.class);
 
+
     /**
      * Shuffles given deck of cards.
      *
@@ -22,10 +23,12 @@ public class CardDeckServiceImpl implements CardDeckService {
      */
     @Override
     public List<Card> shuffleDeck(List<Card> deck) {
+
         Random r = new Random();
         Card[] deckarray = new Card[deck.size()];
         deck.toArray(deckarray);
         logger.info("Deck array was created and shuflling is initiated");
+
 
         // Start from the last element and swap one by one. We don't
         // need to run for the first element that's why i > 0
@@ -41,6 +44,7 @@ public class CardDeckServiceImpl implements CardDeckService {
 
         }
         logger.info("deck was shuffeled");
+
         return Arrays.asList(deckarray);
     }
 

@@ -50,6 +50,7 @@ public class GameRuleServiceImpl implements GameRuleService {
      */
     @Override
     public boolean cardPlaceable(Card card, List<Card> cards) {
+
         logger.info("getting the top card ");
         Card topCard = cards.get(cards.size() - 1);
         logger.info("determining the symbol and rank of top card ");
