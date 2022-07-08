@@ -27,7 +27,7 @@ public class CardServiceTest {
         String result = cardService.getCardAsString(card);
 
         //then
-        assertEquals(result, "ACE DIAMONDS");
+        assertEquals(result, "DIAMONDS ACE");
     }
 
     @Test

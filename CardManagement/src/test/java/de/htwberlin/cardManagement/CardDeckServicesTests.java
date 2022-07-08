@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CardDeckServicesTests {
     CardDeckService cardDeckService;
@@ -75,5 +74,29 @@ public class CardDeckServicesTests {
 
     }
 
+    @Test
+    public void getLastPlacedCardOnDeck_testSuccessful() {
+        //given
+        List<Card> deck = cardDeckService.getNewDeck();
+
+        //When
+        Optional<Card> result = cardDeckService.getLastPlacedCardOnDeck(deck);
+
+        //then
+        assertTrue(result.isPresent());
+        assertEquals(result.get(), deck.get(deck.size()-1));
+    }
+
+    @Test
+    public void getLastPlacedCardOnDeck_testEmptyDeck() {
+        //given
+        List<Card> deck = List.of();
+
+        //When
+        Optional<Card> result = cardDeckService.getLastPlacedCardOnDeck(deck);
+
+        //then
+        assertTrue(result.isEmpty());
+    }
 
 }

@@ -1,22 +1,27 @@
-package de.htwberlin.cardManagement;
+package de.htwberlin.playerManagement;
 
 import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.playerManagement.export.PlayerService;
 import de.htwberlin.playerManagement.impl.PlayerServiceImpl;
+import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
 
 public class PlayerServiceTest {
 
-    private final PlayerServiceImpl playerServiceImp;
+    private PlayerService playerService;
 
-    public PlayerServiceTest() {
-        playerServiceImp = new PlayerServiceImpl();
+
+    @Before
+    public void setUp(){
+        playerService = new PlayerServiceImpl();
     }
-
 
     @Test
     public void createPlayerTest_successfulPlayerCreation() {
@@ -25,7 +30,7 @@ public class PlayerServiceTest {
         String playerName = "jacky";
 
         //when
-        Optional<Player> player = this.playerServiceImp.createPlayer(playerName);
+        Optional<Player> player = playerService.createPlayer(playerName);
 
         //then
         assertTrue(player.isPresent());
@@ -39,8 +44,8 @@ public class PlayerServiceTest {
         String playerName = "gladys";
 
         //when
-        Optional<Player> player1 = this.playerServiceImp.createPlayer("gladys");
-        Optional<Player> player2 = this.playerServiceImp.createPlayer("jacky");
+        Optional<Player> player1 = playerService.createPlayer("gladys");
+        Optional<Player> player2 = playerService.createPlayer("jacky");
 
         //then
         assertNotEquals(player1.get().getId(), player2.get().getId());

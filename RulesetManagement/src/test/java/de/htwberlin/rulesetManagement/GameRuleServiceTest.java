@@ -49,6 +49,8 @@ public class GameRuleServiceTest {
         Map<Card.Rank, String> expectedResult = Map.ofEntries(
                 entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
                 entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
+                entry(Card.Rank.NINE, "CHANGE_DIRECTION"),
+                entry(Card.Rank.TEN, "JOKER"),
                 entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
         );
 
