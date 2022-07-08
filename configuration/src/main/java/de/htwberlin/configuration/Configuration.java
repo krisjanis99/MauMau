@@ -1,10 +1,10 @@
 package de.htwberlin.configuration;
 
-import de.htwberlin.cardManagement.export.VirtualPlayerService;
+import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
 import de.htwberlin.cardManagement.impl.CardServiceImpl;
-import de.htwberlin.cardManagement.impl.PlayerServiceImpl;
-import de.htwberlin.cardManagement.impl.VirtualPlayerServiceImpl;
+import de.htwberlin.playerManagement.impl.PlayerServiceImpl;
+import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import export.MauMauUi;

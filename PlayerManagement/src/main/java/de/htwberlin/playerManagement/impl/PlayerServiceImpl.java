@@ -1,8 +1,8 @@
-package de.htwberlin.cardManagement.impl;
+package de.htwberlin.playerManagement.impl;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
-import de.htwberlin.cardManagement.export.PlayerService;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.export.PlayerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,14 +13,9 @@ import java.util.Optional;
 public class PlayerServiceImpl implements PlayerService {
     private static final Logger logger = LogManager.getLogger(PlayerServiceImpl.class);
 
-    private static int ID;
-
     @Override
     public Optional<Player> createPlayer(String name) {
-        int playerID = ID;
-        logger.info("player was given an ID");
-        ID++;
-        Player player = new Player(playerID, name, new ArrayList<Card>(), false, false);
+        Player player = new Player( name, new ArrayList<Card>(), false, false);
         logger.info("player created");
         return Optional.of(player);
     }

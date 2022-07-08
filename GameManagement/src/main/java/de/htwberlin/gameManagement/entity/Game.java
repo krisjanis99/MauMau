@@ -1,27 +1,50 @@
-package de.htwberlin.gameManagement.export;
+package de.htwberlin.gameManagement.entity;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
 public class Game {
 
+    @GeneratedValue
+    @Id
+    private Long id;
+
+    @OneToMany
     List<Player> playerList;
+
+    @OneToMany
     List<Player> winnersRankedList;
+
     Boolean gameEnded;
+
+    @OneToMany
     List<Card> cardDeck;
+
+    @OneToMany
     List<Card> placedCardDeck;
+
+    @OneToOne
     Player currentActivePlayer;
+
     String currentGameRule;
+
     int cardsToDraw;
+
     Boolean currentDirectionIsClockwise;
+
     Card.Symbol currentSymbol;
+
     Card.Rank currentRank;
 
     public Game(List<Player> playerList, List<Card> cardDeck) {

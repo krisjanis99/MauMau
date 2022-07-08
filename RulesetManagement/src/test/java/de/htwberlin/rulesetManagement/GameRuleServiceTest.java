@@ -1,6 +1,6 @@
 package de.htwberlin.rulesetManagement;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import org.junit.Before;

@@ -1,5 +1,7 @@
 package de.htwberlin.cardManagement.export;
 
+import de.htwberlin.cardManagement.entity.Card;
+
 import java.util.List;
 import java.util.Optional;
 

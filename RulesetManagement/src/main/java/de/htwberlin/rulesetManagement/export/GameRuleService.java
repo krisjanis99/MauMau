@@ -1,6 +1,6 @@
 package de.htwberlin.rulesetManagement.export;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 
 import java.util.Map;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package de.htwberlin.cardManagement.impl;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardService;
 
 

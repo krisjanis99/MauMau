@@ -1,6 +1,6 @@
-package de.htwberlin.cardManagement.export;
+package de.htwberlin.playerManagement.export;
 
-import de.htwberlin.cardManagement.entity.Player;
+import de.htwberlin.playerManagement.entity.Player;
 
 import java.util.Optional;
 

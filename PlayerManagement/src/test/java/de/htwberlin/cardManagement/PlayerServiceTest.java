@@ -1,7 +1,7 @@
 package de.htwberlin.cardManagement;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.impl.PlayerServiceImpl;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.playerManagement.impl.PlayerServiceImpl;
 import org.junit.Test;
 
 import java.util.Optional;

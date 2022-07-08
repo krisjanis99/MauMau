@@ -1,10 +1,10 @@
 package de.htwberlin.gameManagement.impl;
 
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
-import de.htwberlin.gameManagement.export.Game;
+import de.htwberlin.gameManagement.entity.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,9 +1,9 @@
 package de.htwberlin.gameManagement;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
-import de.htwberlin.gameManagement.export.Game;
+import de.htwberlin.gameManagement.entity.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
 import org.junit.Before;
@@ -47,8 +47,8 @@ public class GameServiceTest {
     }
 
     List<Player> getListOfPlayers() {
-        Player player1 = new Player(1, "player1", new ArrayList<Card>(), false, false);
-        Player player2 = new Player(2, "player2", new ArrayList<Card>(), false, false);
+        Player player1 = new Player("player1", new ArrayList<Card>(), false, false);
+        Player player2 = new Player("player2", new ArrayList<Card>(), false, false);
         return List.of(player1, player2);
     }
 

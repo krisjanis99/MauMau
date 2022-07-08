@@ -1,10 +1,8 @@
-package de.htwberlin.cardManagement.impl;
+package de.htwberlin.playerManagement.impl;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
-import de.htwberlin.cardManagement.export.VirtualPlayerService;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +35,7 @@ public class VirtualPlayerServiceImpl implements VirtualPlayerService {
         int indexLastName = random.nextInt(lastNames.length);
         String virtualPlayerName = firstNames[indexFirstName] + " " + lastNames[indexLastName];
 
-        Player player = new Player(0, virtualPlayerName, new ArrayList<Card>(), false, true);
+        Player player = new Player(virtualPlayerName, new ArrayList<Card>(), false, true);
         logger.info("Virtual player created with the random name {}", virtualPlayerName);
         return Optional.of(player);
     }

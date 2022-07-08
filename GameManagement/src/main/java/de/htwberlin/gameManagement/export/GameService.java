@@ -1,7 +1,8 @@
 package de.htwberlin.gameManagement.export;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.cardManagement.entity.Card;
 
 import java.util.List;
 import java.util.Optional;
