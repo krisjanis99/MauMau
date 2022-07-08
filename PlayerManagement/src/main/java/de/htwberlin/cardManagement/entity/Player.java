@@ -20,4 +20,6 @@ public class Player {
 
     Boolean hasCalledMau;
 
+    Boolean isVirtualPlayer;
+
 }

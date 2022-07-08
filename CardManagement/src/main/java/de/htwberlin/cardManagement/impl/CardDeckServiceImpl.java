@@ -5,10 +5,7 @@ import de.htwberlin.cardManagement.export.CardDeckService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class CardDeckServiceImpl implements CardDeckService {
@@ -65,6 +62,18 @@ public class CardDeckServiceImpl implements CardDeckService {
         }
 
         return cards;
+    }
+
+    /**
+     * Gets the last placed card from a deck.
+     * It doesn't remove the card, just gives an info, which card was placed.
+     *
+     * @param deck the deck
+     * @return the last placed card
+     */
+    @Override
+    public Optional<Card> getLastPlacedCardOnDeck(List<Card> deck) {
+        return Optional.of(deck.get(deck.size() - 1));
     }
 
 }

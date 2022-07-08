@@ -12,5 +12,4 @@ public interface CardService {
      * @return the card as string
      */
     String getCardAsString(Card card);
-
 }

@@ -20,8 +20,9 @@ public class PlayerServiceImpl implements PlayerService {
         int playerID = ID;
         logger.info("player was given an ID");
         ID++;
+        Player player = new Player(playerID, name, new ArrayList<Card>(), false, false);
         logger.info("player created");
-        return Optional.of(new Player(playerID, name, new ArrayList<Card>(), false));
-
+        return Optional.of(player);
     }
+
 }

@@ -14,13 +14,7 @@ public class GameRuleServiceImpl implements GameRuleService {
     private static final Logger logger = LogManager.getLogger(GameRuleServiceImpl.class);
 
 
-    private final Map<Card.Rank, String> classicRuleset = Map.ofEntries(
-            entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
-            entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
-            entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
-    );
-
-    private final Map<Card.Rank, String> additionalRuleset = Map.ofEntries(
+    private final Map<Card.Rank, String> activeGameRuleset = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
             entry(Card.Rank.NINE, "CHANGE_DIRECTION"),
@@ -28,10 +22,8 @@ public class GameRuleServiceImpl implements GameRuleService {
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
     );
 
-    private final Map<Card.Rank, String> activeGameRuleset = additionalRuleset;
-
     /**
-     * Gets the current used game rule set.
+     * Gets the active game rule set.
      *
      * @return the active game rule set
      */

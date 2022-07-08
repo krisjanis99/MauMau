@@ -47,8 +47,8 @@ public class GameServiceTest {
     }
 
     List<Player> getListOfPlayers() {
-        Player player1 = new Player(1, "player1", new ArrayList<Card>(), false);
-        Player player2 = new Player(2, "player2", new ArrayList<Card>(), false);
+        Player player1 = new Player(1, "player1", new ArrayList<Card>(), false, false);
+        Player player2 = new Player(2, "player2", new ArrayList<Card>(), false, false);
         return List.of(player1, player2);
     }
 

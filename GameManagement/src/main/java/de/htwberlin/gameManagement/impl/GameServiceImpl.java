@@ -70,7 +70,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game placeCard(Game game, Card card) {
-        List<Card> gameCards = game.getPlacedCardDeck();
+        List<Card> gameCards = new ArrayList<>(game.getPlacedCardDeck());
         gameCards.add(card);
         game.setPlacedCardDeck(gameCards);
         game.setCurrentSymbol(card.getSymbol());
@@ -94,20 +94,22 @@ public class GameServiceImpl implements GameService {
     @Override
     public Game takeTopCardOffDeck(Game game) {
 
-        List<Card> cards = game.getCardDeck();
-        if (!cards.isEmpty()) {
-            Card drawnCard = cards.get(cards.size() - 1);
-            logger.info(" card to be drawn found ");
-            cards = cards.subList(0, cards.size() - 1);
-            logger.info(" card was taken ");
-            game.setCardDeck(cards);
-            List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
-            playerCards.add(drawnCard);
-            logger.info("card wax added to the player cards ");
-            game.getCurrentActivePlayer().setPlayerCards(playerCards);
-            return game;
+        List<Card> cards = List.copyOf(game.getCardDeck());
+
+        if (cards.isEmpty()){
+            logger.info("No cards left in current Deck.  A new Deck will be added.");
+            cards = cardDeckService.shuffleDeck(cardDeckService.getNewDeck());
         }
-        logger.info("No cards left in current Deck. Game is returned unchanged");
+
+        Card drawnCard = cards.get(cards.size() - 1);
+        logger.info(" card to be drawn found ");
+        cards = cards.subList(0, cards.size() - 1);
+        logger.info(" card was taken ");
+        game.setCardDeck(cards);
+        List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
+        playerCards.add(drawnCard);
+        logger.info("card wax added to the player cards ");
+        game.getCurrentActivePlayer().setPlayerCards(playerCards);
         return game;
     }
 
