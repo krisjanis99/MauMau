@@ -20,7 +20,7 @@ public class Player {
 
     String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     List<Card> playerCards;
 
     Boolean hasCalledMau;

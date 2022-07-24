@@ -1,5 +1,4 @@
 package de.htwberlin.gameManagement.entity;
-
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
 import lombok.Getter;
@@ -20,21 +19,27 @@ public class Game {
     @Id
     private Long id;
 
-    @OneToMany
+    int turnNumber;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "playerlist_id")
     List<Player> playerList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "winnersrankedlist_id")
     List<Player> winnersRankedList;
 
     Boolean gameEnded;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carddeck_id")
     List<Card> cardDeck;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "placedcarddeck_id")
     List<Card> placedCardDeck;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     Player currentActivePlayer;
 
     String currentGameRule;
@@ -48,6 +53,7 @@ public class Game {
     Card.Rank currentRank;
 
     public Game(List<Player> playerList, List<Card> cardDeck) {
+        this.turnNumber = 0;
         this.playerList = playerList;
         this.cardDeck = cardDeck;
         this.placedCardDeck = new ArrayList<>();

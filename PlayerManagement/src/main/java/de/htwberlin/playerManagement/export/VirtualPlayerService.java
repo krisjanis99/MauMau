@@ -17,10 +17,9 @@ public interface VirtualPlayerService {
     Optional<Player> createVirtualPlayer();
 
     /**
-     * Generate random int which dictates the move.
      *
-     * @param min the min
-     * @param max the max
+     * @param min the min int
+     * @param max the max int
      * @return the generated int
      */
     int generateRandomMove(int min, int max);

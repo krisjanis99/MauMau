@@ -1,5 +1,7 @@
 package de.htwberlin.configuration;
 
+import de.htwberlin.persistGameManagement.export.DAOService;
+import de.htwberlin.persistGameManagement.impl.DAOServiceImpl;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
 import de.htwberlin.cardManagement.impl.CardServiceImpl;
@@ -36,6 +38,7 @@ public class Configuration {
         container.addComponent(GameRuleServiceImpl.class);
         container.addComponent(MauMauUiController.class);
         container.addComponent(MauMauUiView.class);
+        container.addComponent(DAOServiceImpl.class);
     }
 
 

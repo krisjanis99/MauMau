@@ -45,7 +45,6 @@ public class GameServiceImpl implements GameService {
                 gameCards = gameCards.subList(5, gameCards.size());
             }
 
-
             logger.info("every player was assigned 5 cards");
             Game game = new Game(players, gameCards);
             logger.info("game is ready");

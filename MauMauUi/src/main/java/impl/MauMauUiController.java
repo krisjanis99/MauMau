@@ -1,6 +1,7 @@
 package impl;
 
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.persistGameManagement.export.DAOService;
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.export.*;
 import de.htwberlin.gameManagement.entity.Game;
@@ -11,10 +12,7 @@ import de.htwberlin.rulesetManagement.export.GameRuleService;
 import export.MauMauUi;
 import org.picocontainer.annotations.Inject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class MauMauUiController implements MauMauUi {
 
@@ -39,42 +37,43 @@ public class MauMauUiController implements MauMauUi {
     @Inject
     VirtualPlayerService virtualPlayerService;
 
+    @Inject
+    DAOService daoService;
+
+    //DAO Muster -verwenden, game DAO bauen, EntityManager verwenden
+    //PersistGameManagement - Interface aus GameManagement
+    //Hibernate impl. von JPA, Entity
+
+
+
 
     @Override
     public void run() {
         view.printWelcomeMsg();
-
-        int playerCount = 0;
-        while (playerCount < 2 || playerCount > 4) {
-            view.printNotification("How many players will play? The maximal count is 4.");
-            playerCount = view.getUserInputAsInt(2, 4);
+        List<Game> availableGames = daoService.findAllGames();
+        view.printNotification("Do you want to start a new game or continue an old game? \n0: start a new game\n1: continue an old game");
+        int saveGamePlayerInput = view.getUserInputAsInt(0, 1);
+        Game game;
+        if (saveGamePlayerInput == 0){
+            game = configureNewGame();
+        }else if (availableGames.isEmpty()){
+            view.printNotification("No old games found. Start a new game first.");
+            game = configureNewGame();
         }
-
-        int virtualPlayerCount = -1;
-        while (virtualPlayerCount >= 5 || virtualPlayerCount < 0) {
-            view.printNotification(String.format("How many of the players are virtual? The maximal count is %d.", playerCount));
-            virtualPlayerCount = view.getUserInputAsInt(0, playerCount);
+        else{
+            StringBuilder gamesString = new StringBuilder();
+            for (Game g : availableGames){
+                gamesString.append(String.format("\n %d: ID: %d, played Turns: %d", availableGames.indexOf(g), g.getId(), g.getTurnNumber()));
+                }
+            view.printNotification(String.format("Here are all started games: %s", gamesString.toString()));
+            int userInput = view.getUserInputAsInt(0, availableGames.size()-1);
+            game = daoService.findGameById(availableGames.get(userInput).getId()).orElseThrow(NoSuchElementException::new);
         }
-
-        List<Player> playerList = new ArrayList<>();
-        for (int i = 1; i <= (playerCount - virtualPlayerCount); i++) {
-            view.askForPlayerName(i);
-            String name = view.getUserInputAsString();
-            playerList.add(playerService.createPlayer(name).get());
-        }
-
-        for (int i = 1; i <= virtualPlayerCount; i++) {
-            playerList.add(virtualPlayerService.createVirtualPlayer().get());
-        }
-
-        Game game = gameService.startNewGame(playerList).get();
-        view.printGameStartingMsg(playerList);
-
-        int turnNumber = 0;
 
         //sometimes the bots play way to long, so the max turns are 300
-        while (!game.getGameEnded() && turnNumber<=300) {
-            view.printTurnStartingMessage(game, turnNumber);
+        while (!game.getGameEnded() && game.getTurnNumber()<=300) {
+            daoService.update(game);
+            view.printTurnStartingMessage(game);
             game = executeTurn(game);
             for (int i = 0; i < game.getPlayerList().size(); i++) {
                 if (game.getPlayerList().get(i).getPlayerCards().isEmpty()) {
@@ -83,16 +82,42 @@ public class MauMauUiController implements MauMauUi {
                 }
             }
             game.getPlayerList().removeAll(game.getWinnersRankedList());
-
             if (game.getPlayerList().size() < 2) {
                 game.setGameEnded(true);
             }
-            turnNumber++;
+            game.setTurnNumber(game.getTurnNumber()+1);
         }
-
         checkForWinners(game);
-
     }
+
+
+    private Game configureNewGame() {
+        view.printNotification("Configure a new game!");
+        int playerCount = 0;
+        while (playerCount < 2 || playerCount > 4) {
+            view.printNotification("How many players will play? The maximal count is 4.");
+            playerCount = view.getUserInputAsInt(2, 4);
+        }
+        int virtualPlayerCount = -1;
+        while (virtualPlayerCount >= 5 || virtualPlayerCount < 0) {
+            view.printNotification(String.format("How many of the players are virtual? The maximal count is %d.", playerCount));
+            virtualPlayerCount = view.getUserInputAsInt(0, playerCount);
+        }
+        List<Player> playerList = new ArrayList<>();
+        for (int i = 1; i <= (playerCount - virtualPlayerCount); i++) {
+            view.askForPlayerName(i);
+            String name = view.getUserInputAsString();
+            playerList.add(playerService.createPlayer(name).get());
+        }
+        for (int i = 1; i <= virtualPlayerCount; i++) {
+            playerList.add(virtualPlayerService.createVirtualPlayer().get());
+        }
+        Game game = gameService.startNewGame(playerList).get();
+        view.printGameStartingMsg(playerList);
+        daoService.persist(game);
+        return game;
+    }
+
 
     private void checkForWinners(Game game) {
 
@@ -103,7 +128,6 @@ public class MauMauUiController implements MauMauUi {
         }else{
             game.getWinnersRankedList().add(game.getPlayerList().get(0));
         }
-
         view.printNotification("The game is finished.\nThe Players won in following order:");
         StringBuilder winners = new StringBuilder();
         for (int i = 0; i < game.getWinnersRankedList().size(); i++) {
@@ -111,37 +135,31 @@ public class MauMauUiController implements MauMauUi {
         }
         view.printNotification(winners.toString());
         view.printNotification("The game has ended!");
-
     }
 
-    private Game executeTurn(Game game) {
 
+    private Game executeTurn(Game game) {
         if (game.getCurrentActivePlayer().getIsVirtualPlayer()){
             return executeVirtualPlayerTurn(game);
         } else {
             return executeRealPlayerMove(game);
         }
-
     }
+
 
     private Game executeRealPlayerMove(Game game) {
         while (true) {
             view.printNotification("The last placed card on the deck is a " + cardService.getCardAsString(game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1)));
             view.printPlayerCards(game.getCurrentActivePlayer());
-
             int playerInput = view.getUserInputAsInt(0, (game.getCurrentActivePlayer().getPlayerCards().size()));
-
             if (playerInput == 0) {
-
                 game = gameService.takeTopCardOffDeck(game);
                 Card drawnCard = game.getCurrentActivePlayer().getPlayerCards().get(game.getCurrentActivePlayer().getPlayerCards().size() - 1);
                 view.printNotification("You drawed: " + cardService.getCardAsString(drawnCard));
-
             } else if ((playerInput-1) <= game.getCurrentActivePlayer().getPlayerCards().size()) {
                 playerInput = playerInput-1;
                 Card cardToBePlaced = game.getCurrentActivePlayer().getPlayerCards().get(playerInput);
                 boolean placementValid = gameRuleService.cardPlaceable(cardToBePlaced, game.getCurrentSymbol(), game.getCurrentRank());
-
                 if (gameRuleService.checkIfCardHasGameRule(cardToBePlaced).isPresent()) {
                     String rule = gameRuleService.checkIfCardHasGameRule(cardToBePlaced).get();
                     gameService.placeCard(game, cardToBePlaced);
@@ -163,19 +181,14 @@ public class MauMauUiController implements MauMauUi {
 
     private Game executeVirtualPlayerTurn(Game game) {
         while (true) {
-
             int virtualPlayerInput = virtualPlayerService.generateRandomMove(0, game.getCurrentActivePlayer().getPlayerCards().size());
-
             if (virtualPlayerInput == 0) {
                 game = gameService.takeTopCardOffDeck(game);
                 Card drawnCard = game.getCurrentActivePlayer().getPlayerCards().get(game.getCurrentActivePlayer().getPlayerCards().size() - 1);
                 view.printNotification("The virtual Player draws a : " + cardService.getCardAsString(drawnCard));
-
             } else if (virtualPlayerInput <= game.getCurrentActivePlayer().getPlayerCards().size()) {
-
                 Card cardToBePlaced = game.getCurrentActivePlayer().getPlayerCards().get(virtualPlayerInput);
                 boolean placementValid = gameRuleService.cardPlaceable(cardToBePlaced, game.getCurrentSymbol(), game.getCurrentRank());
-
                 if (gameRuleService.checkIfCardHasGameRule(cardToBePlaced).isPresent()) {
                     String rule = gameRuleService.checkIfCardHasGameRule(cardToBePlaced).get();
                     gameService.placeCard(game, cardToBePlaced);
@@ -193,6 +206,7 @@ public class MauMauUiController implements MauMauUi {
         }
     }
 
+
     private Game checkIfCardsNeedToBeDrawn(Game game) {
         Card lastPlacedCard = cardDeckService.getLastPlacedCardOnDeck(game.getPlacedCardDeck()).get();
         if (game.getCardsToDraw() > 0 && lastPlacedCard.getRank() != Card.Rank.SEVEN) {
@@ -208,6 +222,7 @@ public class MauMauUiController implements MauMauUi {
         }
         return game;
     }
+
 
     private Game applyGameRule(Game game, String rule) {
         switch (rule) {
@@ -237,5 +252,4 @@ public class MauMauUiController implements MauMauUi {
         }
         return game;
     }
-
 }

@@ -17,11 +17,14 @@ public class MauMauUiView {
 
     void printSep(){
         System.out.println("........................................................................ ");
-    };
+    }
 
     void printWelcomeMsg() {
         printSep();
-        System.out.println("..................... Welcome to the Mau Mau Game..................... ");
+        System.out.println(".....................Welcome to the Mau Mau Game..................... ");
+        System.out.println("..................The famous card game from Germany.................. ");
+        printSep();
+        System.out.println("....................This game saves automatically.................... ");
         printSep();
     }
 
@@ -69,9 +72,9 @@ public class MauMauUiView {
         printSep();
     }
 
-    void printTurnStartingMessage(Game game, int turnNumber) {
+    void printTurnStartingMessage(Game game) {
         printSep();
-        System.out.printf("Time for the next turn! It's turn %d. \n", turnNumber);
+        System.out.printf("Time for the next turn! It's turn %d. \n", game.getTurnNumber());
         System.out.printf("The player %s is up!\n", game.getCurrentActivePlayer().getName());
         System.out.printf("The last placed card was %s %s!\n", game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getSymbol(),
         game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getRank());

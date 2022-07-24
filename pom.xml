@@ -15,6 +15,7 @@
         <module>GameManagement</module>
         <module>configuration</module>
         <module>MauMauUi</module>
+        <module>PersistGameManagement</module>
     </modules>
 
     <name>MauMau</name>
@@ -33,14 +34,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-            <version>2.2</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.6.8.Final</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
-            <artifactId>h2-mvstore</artifactId>
-            <version>2.1.214</version>
+            <artifactId>h2</artifactId>
+            <version>2.1.212</version>
         </dependency>
         <dependency>
             <groupId>org.picocontainer</groupId>
