@@ -45,13 +45,13 @@ public class MauMauUiController implements MauMauUi {
     public void run() {
         view.printWelcomeMsg();
         List<Game> availableGames = daoService.findAllGames();
-        view.printNotification("Do you want to start a new game or continue an old game? \n0: start a new game\n1: continue an old game");
+        view.printNotification("Do you want to start a new game or continue an old game? \n0: start a new game\n1: continue a unfinished game");
         int saveGamePlayerInput = view.getUserInputAsInt(0, 1);
         Game game;
         if (saveGamePlayerInput == 0){
             game = configureNewGame();
         }else if (availableGames.isEmpty()){
-            view.printNotification("No old games found. Start a new game first.");
+            view.printNotification("No unfinished games found. Start a new game first.");
             game = configureNewGame();
         }
         else{
@@ -107,8 +107,9 @@ public class MauMauUiController implements MauMauUi {
             playerList.add(virtualPlayerService.createVirtualPlayer().get());
         }
         Game game = gameService.startNewGame(playerList).get();
-        view.printGameStartingMsg(playerList);
         daoService.persist(game);
+        view.printNotification(String.format("A new game with the the ID %d was created.", game.getId()));
+        view.printGameStartingMsg(playerList);
         return game;
     }
 
@@ -231,18 +232,18 @@ public class MauMauUiController implements MauMauUi {
                 break;
             case "CHANGE_DIRECTION":
                 game.setCurrentDirectionIsClockwise(!game.getCurrentDirectionIsClockwise());
-                view.printNotification("Gamerule: The direction has switched!");
+                view.printNotification("Gamerule: The direction of the game has switched!");
                 break;
             case "WISH_NEW_SYMBOL":
                 int wishedSymbol = -1;
                 if (game.getCurrentActivePlayer().getIsVirtualPlayer()){
                     wishedSymbol = virtualPlayerService.generateRandomMove(0, 3);
                 }else{
-                    view.printNotification("Which Symbol do u wish for?\n 0: CLUBS\n 1: DIAMONDS\n 2: HEARTS\n 3: SPADES");
+                    view.printNotification("Which Symbol do you choose?\n 0: CLUBS\n 1: DIAMONDS\n 2: HEARTS\n 3: SPADES");
                     wishedSymbol = view.getUserInputAsInt(0, 3);
                 }
                 game.setCurrentSymbol(Card.Symbol.values()[wishedSymbol]);
-                view.printNotification("Gamerule: The current game symbol is now " + Card.Symbol.values()[wishedSymbol]);
+                view.printNotification(String.format("Gamerule: The player gets to choose a symbol. \nThe symbol %s was chosen.", Card.Symbol.values()[wishedSymbol]));
                 break;
         }
         return game;
