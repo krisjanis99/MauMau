@@ -40,12 +40,6 @@ public class MauMauUiController implements MauMauUi {
     @Inject
     DAOService daoService;
 
-    //DAO Muster -verwenden, game DAO bauen, EntityManager verwenden
-    //PersistGameManagement - Interface aus GameManagement
-    //Hibernate impl. von JPA, Entity
-
-
-
 
     @Override
     public void run() {
@@ -135,6 +129,7 @@ public class MauMauUiController implements MauMauUi {
         }
         view.printNotification(winners.toString());
         view.printNotification("The game has ended!");
+        daoService.removeGame(game);
     }
 
 

@@ -16,6 +16,8 @@ public interface DAOService {
 
     List<Game> findAllGames();
 
+    boolean removeGame(Game game);
+
     int removeAllGames();
 
     EntityManager getEntityManager();

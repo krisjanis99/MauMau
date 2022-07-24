@@ -35,7 +35,6 @@ public class DAOServiceImpl implements DAOService {
     public Game update(Game game) {
         try{
             em.getTransaction().begin();
-            //game = em.merge(game);
             em.persist(game);
             em.getTransaction().commit();
         }catch (Exception e) {
@@ -69,6 +68,19 @@ public class DAOServiceImpl implements DAOService {
             e.printStackTrace();
         }
         return allGames;
+    }
+
+    @Override
+    public boolean removeGame(Game game) {
+        try {
+            em.getTransaction().begin();
+            em.remove(game);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
