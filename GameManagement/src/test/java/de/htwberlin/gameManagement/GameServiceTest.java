@@ -1,5 +1,6 @@
 package de.htwberlin.gameManagement;
 
+import de.htwberlin.gameManagement.export.CardNotplaced;
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
@@ -103,7 +104,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void placeCard_placingSuccessful() {
+    public void placeCard_placingSuccessful() throws CardNotplaced {
         //given
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
@@ -124,7 +125,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void placeCard_placingNotSuccessful() {
+    public void placeCard_placingNotSuccessful() throws CardNotplaced {
         //given
         List<Card> cards = getFullCardDeck();
         cards.add(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));

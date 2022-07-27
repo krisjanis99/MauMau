@@ -1,6 +1,7 @@
 package de.htwberlin.rulesetManagement.impl;
 
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.rulesetManagement.export.GameErrorTech;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,8 +42,11 @@ public class GameRuleServiceImpl implements GameRuleService {
      * @return the boolean which says if the card can be placed
      */
     @Override
-    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) {
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameErrorTech {
         logger.info("checking if the card can be placed ");
+        if(card == null ||  symbol ==null|| rank ==null ){
+            throw new GameErrorTech("card values are null") ;
+        }
         if (rank == card.getRank() || symbol == card.getSymbol()) {
             return true;
         }
@@ -57,11 +61,19 @@ public class GameRuleServiceImpl implements GameRuleService {
      */
     @Override
     public Optional<String> checkIfCardHasGameRule(Card card) {
-        if (activeGameRuleset.containsKey(card.getRank())) {
-            logger.info("card was found to have a rank");
-            return Optional.of(activeGameRuleset.get(card.getRank()));
-        }
-        logger.info("no rank found");
-        return Optional.empty();
+         try {
+             if (activeGameRuleset.containsKey(card.getRank())) {
+                 logger.info("card was found to have a rank");
+                 return Optional.of(activeGameRuleset.get(card.getRank()));
+             }
+             logger.info("no rank found");
+             return Optional.empty();
+         }
+         catch (Exception e){
+             e.printStackTrace();
+             logger.error("something went wrong gerring the rank and comperaing it to the rules");
+             return Optional.empty();
+
+         }
     }
 }

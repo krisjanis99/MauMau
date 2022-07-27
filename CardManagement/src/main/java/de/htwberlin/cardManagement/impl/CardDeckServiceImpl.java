@@ -2,6 +2,7 @@ package de.htwberlin.cardManagement.impl;
 
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
+import de.htwberlin.cardManagement.export.NoCardFound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,10 +20,11 @@ public class CardDeckServiceImpl implements CardDeckService {
      */
     @Override
     public List<Card> shuffleDeck(List<Card> deck) {
+
         Random r = new Random();
         Card[] deckarray = new Card[deck.size()];
         deck.toArray(deckarray);
-        logger.info("Deck array was created and shuflling is initiated");
+        logger.debug("Deck array was created and shuflling is initiated");
 
         // Start from the last element and swap one by one. We don't
         // need to run for the first element that's why i > 0
@@ -76,7 +78,7 @@ public class CardDeckServiceImpl implements CardDeckService {
 
         try {
             return Optional.of(deck.get(deck.size() - 1));
-        }catch (IndexOutOfBoundsException e){
+        } catch (NoCardFound e) {
             logger.error("Card deck was empty.");
             return Optional.empty();
         }

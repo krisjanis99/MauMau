@@ -1,6 +1,8 @@
 package impl;
 
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
+import de.htwberlin.gameManagement.export.CardNotplaced;
 import de.htwberlin.persistGameManagement.export.DAOService;
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.export.*;
@@ -8,13 +10,18 @@ import de.htwberlin.gameManagement.entity.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.playerManagement.export.PlayerService;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
+import de.htwberlin.rulesetManagement.export.GameErrorTech;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
+import export.GameInitialziationException;
 import export.MauMauUi;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.picocontainer.annotations.Inject;
 
 import java.util.*;
 
 public class MauMauUiController implements MauMauUi {
+    private static final Logger logger = LogManager.getLogger(MauMauUiController.class);
 
     @Inject
     MauMauUiView view;
@@ -42,17 +49,27 @@ public class MauMauUiController implements MauMauUi {
 
 
     @Override
-    public void run() {
+    public void run()    {
         view.printWelcomeMsg();
         List<Game> availableGames = daoService.findAllGames();
         view.printNotification("Do you want to start a new game or continue an old game? \n0: start a new game\n1: continue a unfinished game");
         int saveGamePlayerInput = view.getUserInputAsInt(0, 1);
-        Game game;
+        Game game = null;
         if (saveGamePlayerInput == 0){
-            game = configureNewGame();
+            try {
+                game = configureNewGame();
+            } catch (GameInitialziationException e) {
+                logger.debug("error configuring a new game");
+                e.printStackTrace();
+            }
         }else if (availableGames.isEmpty()){
             view.printNotification("No unfinished games found. Start a new game first.");
-            game = configureNewGame();
+            try {
+                game = configureNewGame();
+            } catch (GameInitialziationException e) {
+                logger.debug("error configuring a new game");
+                e.printStackTrace();
+            }
         }
         else{
             StringBuilder gamesString = new StringBuilder();
@@ -67,8 +84,21 @@ public class MauMauUiController implements MauMauUi {
         //sometimes the bots play way to long, so the max turns are 300
         while (!game.getGameEnded() && game.getTurnNumber()<=300) {
             daoService.update(game);
-            view.printTurnStartingMessage(game);
-            game = executeTurn(game);
+            try {
+                view.printTurnStartingMessage(game);
+            } catch (GameInitialziationException e) {
+                logger.debug("error configuring instiallizing the game");
+                e.printStackTrace();
+            }
+            try {
+                game = executeTurn(game);
+            } catch (CardNotplaced e) {
+                logger.debug("problem with placing the card");
+                e.printStackTrace();
+            } catch (GameErrorTech e) {
+                logger.debug("game error while exceuting the turns ");
+                e.printStackTrace();
+            }
             for (int i = 0; i < game.getPlayerList().size(); i++) {
                 if (game.getPlayerList().get(i).getPlayerCards().isEmpty()) {
                     game.getWinnersRankedList().add(game.getPlayerList().get(i));
@@ -85,7 +115,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game configureNewGame() {
+    private Game configureNewGame() throws GameInitialziationException {
         view.printNotification("Configure a new game!");
         int playerCount = 0;
         while (playerCount < 2 || playerCount > 4) {
@@ -134,7 +164,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game executeTurn(Game game) {
+    private Game executeTurn(Game game) throws CardNotplaced, GameErrorTech {
         if (game.getCurrentActivePlayer().getIsVirtualPlayer()){
             return executeVirtualPlayerTurn(game);
         } else {
@@ -143,7 +173,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game executeRealPlayerMove(Game game) {
+    private Game executeRealPlayerMove(Game game) throws GameErrorTech, CardNotplaced {
         while (true) {
             view.printNotification("The last placed card on the deck is a " + cardService.getCardAsString(game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1)));
             view.printPlayerCards(game.getCurrentActivePlayer());
@@ -175,7 +205,7 @@ public class MauMauUiController implements MauMauUi {
         }
     }
 
-    private Game executeVirtualPlayerTurn(Game game) {
+    private Game executeVirtualPlayerTurn(Game game) throws CardNotplaced, GameErrorTech {
         while (true) {
             int virtualPlayerInput = virtualPlayerService.generateRandomMove(0, game.getCurrentActivePlayer().getPlayerCards().size());
             if (virtualPlayerInput == 0) {

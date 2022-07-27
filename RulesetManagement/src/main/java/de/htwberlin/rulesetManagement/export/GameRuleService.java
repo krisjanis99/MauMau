@@ -25,7 +25,7 @@ public interface GameRuleService {
      * @param symbol the current game symbol
      * @return the boolean which says if the card can be placed
      */
-    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank);
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameErrorTech;
 
     /**
      * Check if card has a game action.
