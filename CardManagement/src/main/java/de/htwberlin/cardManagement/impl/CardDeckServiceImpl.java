@@ -74,13 +74,13 @@ public class CardDeckServiceImpl implements CardDeckService {
      * @return the last placed card
      */
     @Override
-    public Optional<Card> getLastPlacedCardOnDeck(List<Card> deck) {
+    public Card getLastPlacedCardOnDeck(List<Card> deck) {
 
         try {
-            return Optional.of(deck.get(deck.size() - 1));
-        } catch (NoCardFoundException e) {
+            return deck.get(deck.size() - 1);
+        } catch (ArrayIndexOutOfBoundsException e) {
             logger.error("Card deck was empty.");
-            return Optional.empty();
+            throw new NoCardFoundException("Given deck was empty.");
         }
 
     }

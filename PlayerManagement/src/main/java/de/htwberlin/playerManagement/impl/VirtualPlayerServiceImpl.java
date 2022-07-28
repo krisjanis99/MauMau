@@ -2,6 +2,7 @@ package de.htwberlin.playerManagement.impl;
 
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,24 +21,23 @@ public class VirtualPlayerServiceImpl implements VirtualPlayerService {
         this.random = random;
     }
 
-    /**
-     * create a new virtual player
-     *
-     * @return initialized and configured virtual player
-     */
     @Override
-    public Optional<Player> createVirtualPlayer() {
+    public Player createVirtualPlayer() throws PlayerCreationFailedException {
+        try {
+            String[] firstNames = {"Bob", "Stefan", "Augustus", "Jan", "Winfried", "Martha", "Sabine", "Else", "Olga", "Hilda"};
+            String[] lastNames = {"König", "Müller", "Winter", "Hansemann", "Sommer", "Neumann", "Haas", "Kiefer", "Fischer", "Jäger"};
 
-        String[] firstNames = {"Bob", "Stefan", "Augustus", "Jan", "Winfried", "Martha", "Sabine", "Else", "Olga", "Hilda"};
-        String[] lastNames = {"König", "Müller", "Winter", "Hansemann", "Sommer", "Neumann", "Haas", "Kiefer", "Fischer", "Jäger"};
+            int indexFirstName = random.nextInt(firstNames.length);
+            int indexLastName = random.nextInt(lastNames.length);
+            String virtualPlayerName = firstNames[indexFirstName] + " " + lastNames[indexLastName];
 
-        int indexFirstName = random.nextInt(firstNames.length);
-        int indexLastName = random.nextInt(lastNames.length);
-        String virtualPlayerName = firstNames[indexFirstName] + " " + lastNames[indexLastName];
+            Player player = new Player(virtualPlayerName, new ArrayList<Card>(), false, true);
+            logger.info("Virtual player created with the random name {}", virtualPlayerName);
+            return player;
+        }catch (Exception e){
+            throw new PlayerCreationFailedException(String.format("Player couldn't be created: %s", e));
+        }
 
-        Player player = new Player(virtualPlayerName, new ArrayList<Card>(), false, true);
-        logger.info("Virtual player created with the random name {}", virtualPlayerName);
-        return Optional.of(player);
     }
 
     /**

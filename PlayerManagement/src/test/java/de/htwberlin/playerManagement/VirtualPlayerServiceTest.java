@@ -1,6 +1,7 @@
 package de.htwberlin.playerManagement;
 
 import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
 import org.junit.Before;
@@ -21,14 +22,13 @@ public class VirtualPlayerServiceTest {
 
 
     @Test
-    public void testCreateVirtualPlayer_successfulPlayerCreation() {
+    public void testCreateVirtualPlayer_successfulPlayerCreation() throws PlayerCreationFailedException {
 
         //when
-        Optional<Player> player = virtualPlayerService.createVirtualPlayer();
+        Player player = virtualPlayerService.createVirtualPlayer();
 
         //then
-        assertTrue(player.isPresent());
-        assertTrue(player.get().getIsVirtualPlayer());
+        assertTrue(player.getIsVirtualPlayer());
     }
 
 

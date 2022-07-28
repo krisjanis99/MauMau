@@ -31,8 +31,9 @@ public interface CardDeckService {
      * It doesn't remove the card, just gives an info, which card was placed.
      *
      * @param deck the deck
-     * @return the last placed card as an optional. If the deck is empty, the optional is empty.
+     * @return the last placed card. If the deck is empty, an exception is thrown.
+     * @throws NoCardFoundException is thrown when the deck is empty
      */
-    Optional<Card> getLastPlacedCardOnDeck(List<Card> deck);
+    Card getLastPlacedCardOnDeck(List<Card> deck);
 
 }

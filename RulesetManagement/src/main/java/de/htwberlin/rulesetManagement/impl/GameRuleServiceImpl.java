@@ -45,7 +45,7 @@ public class GameRuleServiceImpl implements GameRuleService {
     public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameTechnicalErrorException {
         logger.info("checking if the card can be placed ");
         if(card == null ||  symbol ==null|| rank ==null ){
-            throw new GameTechnicalErrorException("card values are null") ;
+            throw new GameTechnicalErrorException("card values are null.") ;
         }
         if (rank == card.getRank() || symbol == card.getSymbol()) {
             return true;
@@ -60,7 +60,7 @@ public class GameRuleServiceImpl implements GameRuleService {
      * @return the game rule for the card
      */
     @Override
-    public Optional<String> checkIfCardHasGameRule(Card card) {
+    public Optional<String> checkIfCardHasGameRule(Card card) throws GameTechnicalErrorException {
          try {
              if (activeGameRuleset.containsKey(card.getRank())) {
                  logger.info("card was found to have a rank");
@@ -70,10 +70,8 @@ public class GameRuleServiceImpl implements GameRuleService {
              return Optional.empty();
          }
          catch (Exception e){
-             e.printStackTrace();
              logger.error("something went wrong gerring the rank and comperaing it to the rules");
-             return Optional.empty();
-
+             throw new GameTechnicalErrorException(String.format("Given Card is empty: %s", e.getMessage()));
          }
     }
 }

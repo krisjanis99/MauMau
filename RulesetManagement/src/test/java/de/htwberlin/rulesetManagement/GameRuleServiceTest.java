@@ -102,7 +102,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void checkIfCardHasGameRule_testNonRuleCard() {
+    public void checkIfCardHasGameRule_testNonRuleCard() throws GameTechnicalErrorException {
         //given
         Map<Card.Rank, String> ruleset = getRuleSet();
         Card normalCard = new Card(Card.Rank.KING, Card.Symbol.CLUBS);
@@ -115,7 +115,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void checkIfCardHasGameRule_testRuleCard() {
+    public void checkIfCardHasGameRule_testRuleCard() throws GameTechnicalErrorException {
         //given
         Map<Card.Rank, String> ruleset = getRuleSet();
         Card ruleCard = new Card(Card.Rank.SEVEN, Card.Symbol.CLUBS);

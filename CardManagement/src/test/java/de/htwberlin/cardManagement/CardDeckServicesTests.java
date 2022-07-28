@@ -2,6 +2,7 @@ package de.htwberlin.cardManagement;
 
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
+import de.htwberlin.cardManagement.export.NoCardFoundException;
 import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,23 +81,20 @@ public class CardDeckServicesTests {
         List<Card> deck = cardDeckService.getNewDeck();
 
         //When
-        Optional<Card> result = cardDeckService.getLastPlacedCardOnDeck(deck);
+        Card result = cardDeckService.getLastPlacedCardOnDeck(deck);
 
         //then
-        assertTrue(result.isPresent());
-        assertEquals(result.get(), deck.get(deck.size()-1));
+        assertEquals(result, deck.get(deck.size()-1));
     }
 
-    @Test
+    @Test(expected = NoCardFoundException.class)
     public void getLastPlacedCardOnDeck_testEmptyDeck() {
         //given
         List<Card> deck = List.of();
 
-        //When
-        Optional<Card> result = cardDeckService.getLastPlacedCardOnDeck(deck);
+        //When, Then
+        Card result = cardDeckService.getLastPlacedCardOnDeck(deck);
 
-        //then
-        assertTrue(result.isEmpty());
     }
 
 }

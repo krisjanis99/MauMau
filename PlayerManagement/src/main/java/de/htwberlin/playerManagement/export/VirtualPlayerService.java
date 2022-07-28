@@ -10,13 +10,15 @@ import java.util.Optional;
 public interface VirtualPlayerService {
 
     /**
-     * create a new virtual player
+     * creates and returns a new virtual player
      *
      * @return initialized and configured virtual player
+     * @throws PlayerCreationFailedException is htown when the player creation failed
      */
-    Optional<Player> createVirtualPlayer();
+    Player createVirtualPlayer() throws PlayerCreationFailedException;
 
     /**
+     * Generate random move int.
      *
      * @param min the min int
      * @param max the max int

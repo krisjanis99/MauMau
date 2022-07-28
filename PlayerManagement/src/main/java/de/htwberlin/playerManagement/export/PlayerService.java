@@ -4,13 +4,18 @@ import de.htwberlin.playerManagement.entity.Player;
 
 import java.util.Optional;
 
+/**
+ * The interface Player service.
+ */
 public interface PlayerService {
 
+
     /**
-     * create a new player
+     * Creates a player.
      *
-     * @param name of the Player
-     * @return initialized and configured player
+     * @param name the name of player
+     * @return the configured player
+     * @throws PlayerCreationFailedException is thrown if there is an error in player creation
      */
-    Optional<Player> createPlayer(String name);
+    Player createPlayer(String name) throws PlayerCreationFailedException;
 }

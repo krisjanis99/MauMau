@@ -7,6 +7,7 @@ import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.export.*;
 import de.htwberlin.gameManagement.entity.Game;
 import de.htwberlin.gameManagement.export.GameService;
+import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.PlayerService;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
@@ -57,16 +58,16 @@ public class MauMauUiController implements MauMauUi {
         if (saveGamePlayerInput == 0){
             try {
                 game = configureNewGame();
-            } catch (GameInitialziationException e) {
-                logger.debug("error configuring a new game");
+            } catch (GameInitialziationException | PlayerCreationFailedException e) {
+                logger.debug("An error happened while configuring a new game.");
                 e.printStackTrace();
             }
         }else if (availableGames.isEmpty()){
             view.printNotification("No unfinished games found. Start a new game first.");
             try {
                 game = configureNewGame();
-            } catch (GameInitialziationException e) {
-                logger.debug("error configuring a new game");
+            } catch (GameInitialziationException | PlayerCreationFailedException e) {
+                logger.debug("An error happened while configuring a new game.");
                 e.printStackTrace();
             }
         }
@@ -114,7 +115,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game configureNewGame() throws GameInitialziationException {
+    private Game configureNewGame() throws GameInitialziationException, PlayerCreationFailedException {
         view.printNotification("Configure a new game!");
         int playerCount = 0;
         while (playerCount < 2 || playerCount > 4) {
@@ -130,10 +131,10 @@ public class MauMauUiController implements MauMauUi {
         for (int i = 1; i <= (playerCount - virtualPlayerCount); i++) {
             view.askForPlayerName(i);
             String name = view.getUserInputAsString();
-            playerList.add(playerService.createPlayer(name).get());
+            playerList.add(playerService.createPlayer(name));
         }
         for (int i = 1; i <= virtualPlayerCount; i++) {
-            playerList.add(virtualPlayerService.createVirtualPlayer().get());
+            playerList.add(virtualPlayerService.createVirtualPlayer());
         }
         Game game = gameService.startNewGame(playerList).get();
         daoService.persist(game);
@@ -233,7 +234,7 @@ public class MauMauUiController implements MauMauUi {
 
 
     private Game checkIfCardsNeedToBeDrawn(Game game) {
-        Card lastPlacedCard = cardDeckService.getLastPlacedCardOnDeck(game.getPlacedCardDeck()).get();
+        Card lastPlacedCard = cardDeckService.getLastPlacedCardOnDeck(game.getPlacedCardDeck());
         if (game.getCardsToDraw() > 0 && lastPlacedCard.getRank() != Card.Rank.SEVEN) {
             view.printNotification(String.format("Current Player needs to draw %d additional cards.", game.getCardsToDraw()));
             List<Card> drawnCards = new ArrayList<>();
