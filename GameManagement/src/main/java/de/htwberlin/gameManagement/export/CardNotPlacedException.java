@@ -3,13 +3,13 @@ package de.htwberlin.gameManagement.export;
 /**
  * The exception is thrown if something with the card placement went wwrong
  */
-public class CardNotplaced extends Exception{
+public class CardNotPlacedException extends Exception{
 
-    public CardNotplaced(String message) {
+    public CardNotPlacedException(String message) {
         super(message);
     }
 
-    public CardNotplaced(Throwable cause) {
+    public CardNotPlacedException(Throwable cause) {
         super(cause);
     }
 }

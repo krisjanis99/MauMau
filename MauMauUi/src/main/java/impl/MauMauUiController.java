@@ -1,8 +1,7 @@
 package impl;
 
 import de.htwberlin.cardManagement.entity.Card;
-import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
-import de.htwberlin.gameManagement.export.CardNotplaced;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.persistGameManagement.export.DAOService;
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.export.*;
@@ -10,7 +9,7 @@ import de.htwberlin.gameManagement.entity.Game;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.playerManagement.export.PlayerService;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
-import de.htwberlin.rulesetManagement.export.GameErrorTech;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import export.GameInitialziationException;
 import export.MauMauUi;
@@ -92,10 +91,10 @@ public class MauMauUiController implements MauMauUi {
             }
             try {
                 game = executeTurn(game);
-            } catch (CardNotplaced e) {
+            } catch (CardNotPlacedException e) {
                 logger.debug("problem with placing the card");
                 e.printStackTrace();
-            } catch (GameErrorTech e) {
+            } catch (GameTechnicalErrorException e) {
                 logger.debug("game error while exceuting the turns ");
                 e.printStackTrace();
             }
@@ -164,7 +163,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game executeTurn(Game game) throws CardNotplaced, GameErrorTech {
+    private Game executeTurn(Game game) throws CardNotPlacedException, GameTechnicalErrorException {
         if (game.getCurrentActivePlayer().getIsVirtualPlayer()){
             return executeVirtualPlayerTurn(game);
         } else {
@@ -173,7 +172,7 @@ public class MauMauUiController implements MauMauUi {
     }
 
 
-    private Game executeRealPlayerMove(Game game) throws GameErrorTech, CardNotplaced {
+    private Game executeRealPlayerMove(Game game) throws GameTechnicalErrorException, CardNotPlacedException {
         while (true) {
             view.printNotification("The last placed card on the deck is a " + cardService.getCardAsString(game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1)));
             view.printPlayerCards(game.getCurrentActivePlayer());
@@ -205,7 +204,7 @@ public class MauMauUiController implements MauMauUi {
         }
     }
 
-    private Game executeVirtualPlayerTurn(Game game) throws CardNotplaced, GameErrorTech {
+    private Game executeVirtualPlayerTurn(Game game) throws CardNotPlacedException, GameTechnicalErrorException {
         while (true) {
             int virtualPlayerInput = virtualPlayerService.generateRandomMove(0, game.getCurrentActivePlayer().getPlayerCards().size());
             if (virtualPlayerInput == 0) {

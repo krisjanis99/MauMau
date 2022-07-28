@@ -27,7 +27,7 @@ public interface GameService {
      * @param card the card to be placed
      * @return the game with a placed card
      */
-    Game placeCard(Game game, Card card) throws CardNotplaced;
+    Game placeCard(Game game, Card card) throws CardNotPlacedException;
 
     /**
      * Take top card off hidden deck in the game and gives it to the current active Player.

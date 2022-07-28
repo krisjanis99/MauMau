@@ -3,9 +3,8 @@ package impl;
 
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.gameManagement.entity.Game;
-import de.htwberlin.rulesetManagement.export.GameErrorTech;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import export.GameInitialziationException;
-import export.WronginputException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -92,9 +91,9 @@ public class MauMauUiView {
         printSep();
     }
 
-    void printPlayerCards(Player currentPlayer) throws GameErrorTech {
+    void printPlayerCards(Player currentPlayer) throws GameTechnicalErrorException {
         if(currentPlayer.getPlayerCards().size() ==0){
-            throw new GameErrorTech("player has no cards");
+            throw new GameTechnicalErrorException("player has no cards");
         }
         printSep();
         System.out.printf("Here are your current Cards, %s!", currentPlayer.getName());

@@ -1,7 +1,7 @@
 package de.htwberlin.rulesetManagement.impl;
 
 import de.htwberlin.cardManagement.entity.Card;
-import de.htwberlin.rulesetManagement.export.GameErrorTech;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,10 +42,10 @@ public class GameRuleServiceImpl implements GameRuleService {
      * @return the boolean which says if the card can be placed
      */
     @Override
-    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameErrorTech {
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameTechnicalErrorException {
         logger.info("checking if the card can be placed ");
         if(card == null ||  symbol ==null|| rank ==null ){
-            throw new GameErrorTech("card values are null") ;
+            throw new GameTechnicalErrorException("card values are null") ;
         }
         if (rank == card.getRank() || symbol == card.getSymbol()) {
             return true;

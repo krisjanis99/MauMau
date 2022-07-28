@@ -2,7 +2,7 @@ package de.htwberlin.cardManagement.impl;
 
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
-import de.htwberlin.cardManagement.export.NoCardFound;
+import de.htwberlin.cardManagement.export.NoCardFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -78,7 +78,7 @@ public class CardDeckServiceImpl implements CardDeckService {
 
         try {
             return Optional.of(deck.get(deck.size() - 1));
-        } catch (NoCardFound e) {
+        } catch (NoCardFoundException e) {
             logger.error("Card deck was empty.");
             return Optional.empty();
         }

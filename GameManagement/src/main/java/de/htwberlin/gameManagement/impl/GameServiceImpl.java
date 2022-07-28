@@ -1,7 +1,7 @@
 package de.htwberlin.gameManagement.impl;
 
 
-import de.htwberlin.gameManagement.export.CardNotplaced;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
@@ -55,7 +55,7 @@ public class GameServiceImpl implements GameService {
             logger.info("First card was placed");
 
             return Optional.of(game);
-        } catch (NullPointerException | CardNotplaced e) {
+        } catch (NullPointerException | CardNotPlacedException e) {
             logger.error(String.format("Error while creating a new game: %s", e.getMessage()));
         }
         return Optional.empty();
@@ -69,9 +69,9 @@ public class GameServiceImpl implements GameService {
      * @return the game with a placed card
      */
     @Override
-    public Game placeCard(Game game, Card card) throws CardNotplaced {
+    public Game placeCard(Game game, Card card) throws CardNotPlacedException {
         if(game==null || card==null){
-            throw new CardNotplaced("Arguments are null, please check your game or card valuse");
+            throw new CardNotPlacedException("Arguments are null, please check your game or card valuse");
         }
         List<Card> gameCards = new ArrayList<>(game.getPlacedCardDeck());
         gameCards.add(card);

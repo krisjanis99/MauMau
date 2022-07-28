@@ -1,7 +1,7 @@
 package de.htwberlin.rulesetManagement;
 
 import de.htwberlin.cardManagement.entity.Card;
-import de.htwberlin.rulesetManagement.export.GameErrorTech;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import org.junit.Before;
@@ -84,7 +84,7 @@ public class GameRuleServiceTest {
 
 
     @Test
-    public void cardPlaceable_CardCanBePlaced() throws GameErrorTech {
+    public void cardPlaceable_CardCanBePlaced() throws GameTechnicalErrorException {
         //given
         Card card = new Card(Card.Rank.TEN, Card.Symbol.DIAMONDS);
 
@@ -93,7 +93,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void cardPlaceable_CardCannotBePlaced() throws GameErrorTech {
+    public void cardPlaceable_CardCannotBePlaced() throws GameTechnicalErrorException {
         //given
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
 
