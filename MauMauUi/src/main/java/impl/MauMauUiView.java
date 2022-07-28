@@ -1,9 +1,10 @@
 package impl;
 
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
-import de.htwberlin.gameManagement.export.Game;
+import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.playerManagement.entity.Player;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
+import export.GameInitialziationException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -16,19 +17,26 @@ public class MauMauUiView {
         reader = new Scanner(System.in);
     }
 
-    void printWelcomeMsg() {
-        System.out.println("...................................................................... ");
-        System.out.println("..................... Welcome to the Mau Mau Game..................... ");
-        System.out.println("...................................................................... ");
+    void printSep() {
+        System.out.println("........................................................................ ");
     }
 
-    int getUserInputAsInt() {
-        System.out.println("Enter a number: ");
-        int input = 0;
+    void printWelcomeMsg() {
+        printSep();
+        System.out.println(".....................Welcome to the Mau Mau Game..................... ");
+        System.out.println("..................The famous card game from Germany.................. ");
+        printSep();
+        System.out.println("....................This game saves automatically.................... ");
+        printSep();
+    }
+
+    int getUserInputAsInt(int min, int max) {
+        System.out.printf("Enter a number between %d and %d: \n", min, max);
+        int input = -1000;
         while (reader.hasNext()) {
             if (reader.hasNextInt()) {
                 input = reader.nextInt();
-                if (input >= 0) {
+                if (input >= min && input <= max) {
                     reader.nextLine();
                     return input;
                 }
@@ -50,71 +58,57 @@ public class MauMauUiView {
     }
 
     void askForPlayerName(int playerNumber) {
-        System.out.println("...................................................................... ");
+        printSep();
         System.out.printf("................. What is the name of the %d. player?.................%n", playerNumber);
     }
 
-    void printGameStartingMsg() {
-        System.out.println("....................................................................... ");
+    void printGameStartingMsg(List<Player> playerList) throws GameInitialziationException {
+        if (playerList == null || playerList.size() < 2) {
+            throw new GameInitialziationException("no enough players are present");
+        }
+        printSep();
         System.out.println("The game is about to start!");
+        System.out.println("Here are the players which will play:");
+        for (Player player : playerList) {
+            System.out.println(player.getName());
+        }
+        printSep();
         System.out.println("Each player gets 5 cards!");
-        System.out.println("........................................................................ ");
+        printSep();
     }
 
-    void printTurnStartingMessage(Game game) {
-        System.out.println("....................................................................... ");
-        System.out.println("Time for the next turn!");
+    void printTurnStartingMessage(Game game) throws GameInitialziationException {
+        if (game == null) {
+            throw new GameInitialziationException("Game argument is null");
+        }
+        printSep();
+        System.out.printf("Time for the next turn! It's turn %d. \n", game.getTurnNumber());
         System.out.printf("The player %s is up!\n", game.getCurrentActivePlayer().getName());
         System.out.printf("The last placed card was %s %s!\n", game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getSymbol(),
                 game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getRank());
         System.out.printf("The current Symbol in game is %s!\n", game.getCurrentSymbol());
         System.out.printf("You will need to draw additional %d cards!\n", game.getCardsToDraw());
-        System.out.println("....................................................................... ");
+        printSep();
     }
 
-    void printPlayerCards(Player currentPlayer) {
-        System.out.println("....................................................................... ");
+    void printPlayerCards(Player currentPlayer) throws GameTechnicalErrorException {
+        if (currentPlayer.getPlayerCards().size() == 0) {
+            throw new GameTechnicalErrorException("player has no cards");
+        }
+        printSep();
         System.out.printf("Here are your current Cards, %s!", currentPlayer.getName());
         int i;
+        System.out.printf("\n %d: Draw a new card!", 0);
         for (i = 0; i < currentPlayer.getPlayerCards().size(); i++) {
-            System.out.printf("\n %d: %s %s", (i), currentPlayer.getPlayerCards().get(i).getSymbol(), currentPlayer.getPlayerCards().get(i).getRank());
+            System.out.printf("\n %d: %s %s", (i + 1), currentPlayer.getPlayerCards().get(i).getSymbol(), currentPlayer.getPlayerCards().get(i).getRank());
         }
-        System.out.printf("\n %d: Draw a new card!", (i));
         System.out.println("\nType the number of card you want to place");
     }
 
-
-    public void printPlayerWishesSymbol() {
-        System.out.println(".......................................................................\n");
-        for (int i = 0; i < Card.Symbol.values().length; i++) {
-            System.out.printf(" %d: %s\n", (i), Card.Symbol.values()[i]);
-        }
-    }
-
-    void notifyPlayerAboutTheDrawnCards(List<Card> drawnCards) {
-        System.out.println("....................................................................... ");
-        System.out.println("You drawed the following cards:");
-        for (int i = 0; i < drawnCards.size(); i++) {
-            System.out.printf("\n %d: %s %s", (i), drawnCards.get(i).getSymbol(), drawnCards.get(i).getRank());
-        }
-        System.out.println("....................................................................... ");
-    }
-
-    ;
-
     public void printNotification(String msg) {
-        System.out.println("....................................................................... ");
+        printSep();
         System.out.println(msg);
-        System.out.println("....................................................................... ");
+        printSep();
     }
 
-    public void printWinnerList(List<Player> winnersRankedList) {
-        System.out.println("....................................................................... ");
-        System.out.println("The game is finished.\n The Players won in following order:");
-        for (int i = 0; i < winnersRankedList.size(); i++) {
-            System.out.printf("\n %d: %s", (i), winnersRankedList.get(i).getName());
-        }
-        System.out.println("....................................................................... ");
-
-    }
 }

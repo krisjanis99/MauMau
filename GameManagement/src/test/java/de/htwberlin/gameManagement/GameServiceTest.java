@@ -1,11 +1,12 @@
 package de.htwberlin.gameManagement;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
-import de.htwberlin.gameManagement.export.Game;
+import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
+import de.htwberlin.playerManagement.entity.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,8 +48,8 @@ public class GameServiceTest {
     }
 
     List<Player> getListOfPlayers() {
-        Player player1 = new Player(1, "player1", new ArrayList<Card>(), false);
-        Player player2 = new Player(2, "player2", new ArrayList<Card>(), false);
+        Player player1 = new Player("player1", new ArrayList<Card>(), false, false);
+        Player player2 = new Player("player2", new ArrayList<Card>(), false, false);
         return List.of(player1, player2);
     }
 
@@ -103,7 +104,7 @@ public class GameServiceTest {
 
 
     @Test
-    public void placeCard_placingSuccessful() {
+    public void placeCard_placingSuccessful() throws CardNotPlacedException {
         //given
         List<Card> cards = getFullCardDeck();
         List<Player> playerList = getListOfPlayers();
@@ -124,7 +125,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void placeCard_placingNotSuccessful() {
+    public void placeCard_placingNotSuccessful() throws CardNotPlacedException {
         //given
         List<Card> cards = getFullCardDeck();
         cards.add(new Card(Card.Rank.NINE, Card.Symbol.DIAMONDS));

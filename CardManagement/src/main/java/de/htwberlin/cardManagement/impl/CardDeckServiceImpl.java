@@ -1,7 +1,8 @@
 package de.htwberlin.cardManagement.impl;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
+import de.htwberlin.cardManagement.export.NoCardFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,10 +23,11 @@ public class CardDeckServiceImpl implements CardDeckService {
      */
     @Override
     public List<Card> shuffleDeck(List<Card> deck) {
+
         Random r = new Random();
         Card[] deckarray = new Card[deck.size()];
         deck.toArray(deckarray);
-        logger.info("Deck array was created and shuflling is initiated");
+        logger.debug("Deck array was created and shuflling is initiated");
 
         // Start from the last element and swap one by one. We don't
         // need to run for the first element that's why i > 0
@@ -65,6 +67,25 @@ public class CardDeckServiceImpl implements CardDeckService {
         }
 
         return cards;
+    }
+
+    /**
+     * Gets the last placed card from a deck.
+     * It doesn't remove the card, just gives an info, which card was placed.
+     *
+     * @param deck the deck
+     * @return the last placed card
+     */
+    @Override
+    public Card getLastPlacedCardOnDeck(List<Card> deck) {
+
+        try {
+            return deck.get(deck.size() - 1);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            logger.error("Card deck was empty.");
+            throw new NoCardFoundException("Given deck was empty.");
+        }
+
     }
 
 }

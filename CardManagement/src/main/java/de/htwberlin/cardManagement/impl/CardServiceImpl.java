@@ -1,6 +1,6 @@
 package de.htwberlin.cardManagement.impl;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardService;
 
 
@@ -15,7 +15,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public String getCardAsString(Card card) {
 
-        return card.getRank() + " " + card.getSymbol();
+        return card.getSymbol() + " " + card.getRank();
     }
 
 }

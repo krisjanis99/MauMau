@@ -1,7 +1,8 @@
 package de.htwberlin.rulesetManagement.impl;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,13 +15,7 @@ public class GameRuleServiceImpl implements GameRuleService {
     private static final Logger logger = LogManager.getLogger(GameRuleServiceImpl.class);
 
 
-    private final Map<Card.Rank, String> classicRuleset = Map.ofEntries(
-            entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
-            entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
-            entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
-    );
-
-    private final Map<Card.Rank, String> additionalRuleset = Map.ofEntries(
+    private final Map<Card.Rank, String> activeGameRuleset = Map.ofEntries(
             entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
             entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
             entry(Card.Rank.NINE, "CHANGE_DIRECTION"),
@@ -28,10 +23,8 @@ public class GameRuleServiceImpl implements GameRuleService {
             entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
     );
 
-    private final Map<Card.Rank, String> activeGameRuleset = additionalRuleset;
-
     /**
-     * Gets the current used game rule set.
+     * Gets the active game rule set.
      *
      * @return the active game rule set
      */
@@ -49,8 +42,11 @@ public class GameRuleServiceImpl implements GameRuleService {
      * @return the boolean which says if the card can be placed
      */
     @Override
-    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) {
+    public boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameTechnicalErrorException {
         logger.info("checking if the card can be placed ");
+        if (card == null || symbol == null || rank == null) {
+            throw new GameTechnicalErrorException("card values are null.");
+        }
         if (rank == card.getRank() || symbol == card.getSymbol()) {
             return true;
         }
@@ -64,12 +60,17 @@ public class GameRuleServiceImpl implements GameRuleService {
      * @return the game rule for the card
      */
     @Override
-    public Optional<String> checkIfCardHasGameRule(Card card) {
-        if (activeGameRuleset.containsKey(card.getRank())) {
-            logger.info("card was found to have a rank");
-            return Optional.of(activeGameRuleset.get(card.getRank()));
+    public Optional<String> checkIfCardHasGameRule(Card card) throws GameTechnicalErrorException {
+        try {
+            if (activeGameRuleset.containsKey(card.getRank())) {
+                logger.info("card was found to have a rank");
+                return Optional.of(activeGameRuleset.get(card.getRank()));
+            }
+            logger.info("no rank found");
+            return Optional.empty();
+        } catch (Exception e) {
+            logger.error("something went wrong gerring the rank and comperaing it to the rules");
+            throw new GameTechnicalErrorException(String.format("Given Card is empty: %s", e.getMessage()));
         }
-        logger.info("no rank found");
-        return Optional.empty();
     }
 }

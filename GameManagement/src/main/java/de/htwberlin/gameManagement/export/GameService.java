@@ -1,13 +1,14 @@
 package de.htwberlin.gameManagement.export;
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.playerManagement.entity.Player;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * The interface for Game service.
+ * The interface for creating and changing the Game object.
  */
 public interface GameService {
 
@@ -26,7 +27,7 @@ public interface GameService {
      * @param card the card to be placed
      * @return the game with a placed card
      */
-    Game placeCard(Game game, Card card);
+    Game placeCard(Game game, Card card) throws CardNotPlacedException;
 
     /**
      * Take top card off hidden deck in the game and gives it to the current active Player.

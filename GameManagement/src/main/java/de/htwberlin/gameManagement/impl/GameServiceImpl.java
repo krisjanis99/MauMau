@@ -1,11 +1,12 @@
 package de.htwberlin.gameManagement.impl;
 
 
-import de.htwberlin.cardManagement.entity.Player;
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
-import de.htwberlin.gameManagement.export.Game;
+import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.gameManagement.export.GameService;
+import de.htwberlin.playerManagement.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +46,6 @@ public class GameServiceImpl implements GameService {
                 gameCards = gameCards.subList(5, gameCards.size());
             }
 
-
             logger.info("every player was assigned 5 cards");
             Game game = new Game(players, gameCards);
             logger.info("game is ready");
@@ -55,7 +55,7 @@ public class GameServiceImpl implements GameService {
             logger.info("First card was placed");
 
             return Optional.of(game);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | CardNotPlacedException e) {
             logger.error(String.format("Error while creating a new game: %s", e.getMessage()));
         }
         return Optional.empty();
@@ -69,8 +69,11 @@ public class GameServiceImpl implements GameService {
      * @return the game with a placed card
      */
     @Override
-    public Game placeCard(Game game, Card card) {
-        List<Card> gameCards = game.getPlacedCardDeck();
+    public Game placeCard(Game game, Card card) throws CardNotPlacedException {
+        if (game == null || card == null) {
+            throw new CardNotPlacedException("Arguments are null, please check your game or card valuse");
+        }
+        List<Card> gameCards = new ArrayList<>(game.getPlacedCardDeck());
         gameCards.add(card);
         game.setPlacedCardDeck(gameCards);
         game.setCurrentSymbol(card.getSymbol());
@@ -94,20 +97,22 @@ public class GameServiceImpl implements GameService {
     @Override
     public Game takeTopCardOffDeck(Game game) {
 
-        List<Card> cards = game.getCardDeck();
-        if (!cards.isEmpty()) {
-            Card drawnCard = cards.get(cards.size() - 1);
-            logger.info(" card to be drawn found ");
-            cards = cards.subList(0, cards.size() - 1);
-            logger.info(" card was taken ");
-            game.setCardDeck(cards);
-            List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
-            playerCards.add(drawnCard);
-            logger.info("card wax added to the player cards ");
-            game.getCurrentActivePlayer().setPlayerCards(playerCards);
-            return game;
+        List<Card> cards = List.copyOf(game.getCardDeck());
+
+        if (cards.isEmpty()) {
+            logger.info("No cards left in current Deck.  A new Deck will be added.");
+            cards = cardDeckService.shuffleDeck(cardDeckService.getNewDeck());
         }
-        logger.info("No cards left in current Deck. Game is returned unchanged");
+
+        Card drawnCard = cards.get(cards.size() - 1);
+        logger.info(" card to be drawn found ");
+        cards = cards.subList(0, cards.size() - 1);
+        logger.info(" card was taken ");
+        game.setCardDeck(cards);
+        List<Card> playerCards = game.getCurrentActivePlayer().getPlayerCards();
+        playerCards.add(drawnCard);
+        logger.info("card wax added to the player cards ");
+        game.getCurrentActivePlayer().setPlayerCards(playerCards);
         return game;
     }
 

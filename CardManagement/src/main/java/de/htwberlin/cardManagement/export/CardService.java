@@ -1,7 +1,9 @@
 package de.htwberlin.cardManagement.export;
 
+import de.htwberlin.cardManagement.entity.Card;
+
 /**
- * The interface Card service.
+ * The interface for methods which only involves one card.
  */
 public interface CardService {
 
@@ -12,5 +14,4 @@ public interface CardService {
      * @return the card as string
      */
     String getCardAsString(Card card);
-
 }

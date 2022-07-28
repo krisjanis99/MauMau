@@ -1,6 +1,6 @@
 package de.htwberlin.cardManagement;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardService;
 import de.htwberlin.cardManagement.impl.CardServiceImpl;
 import org.junit.Before;
@@ -27,7 +27,7 @@ public class CardServiceTest {
         String result = cardService.getCardAsString(card);
 
         //then
-        assertEquals(result, "ACE DIAMONDS");
+        assertEquals(result, "DIAMONDS ACE");
     }
 
     @Test

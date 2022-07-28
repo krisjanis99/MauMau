@@ -1,7 +1,8 @@
 package de.htwberlin.rulesetManagement;
 
-import de.htwberlin.cardManagement.export.Card;
+import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.rulesetManagement.export.GameRuleService;
+import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +50,8 @@ public class GameRuleServiceTest {
         Map<Card.Rank, String> expectedResult = Map.ofEntries(
                 entry(Card.Rank.SEVEN, "NEXT_PLAYER_DRAWS_CARDS"),
                 entry(Card.Rank.EIGHT, "NEXT_PLAYER_SITS_OUT"),
+                entry(Card.Rank.NINE, "CHANGE_DIRECTION"),
+                entry(Card.Rank.TEN, "JOKER"),
                 entry(Card.Rank.JACK, "WISH_NEW_SYMBOL")
         );
 
@@ -81,7 +84,7 @@ public class GameRuleServiceTest {
 
 
     @Test
-    public void cardPlaceable_CardCanBePlaced() {
+    public void cardPlaceable_CardCanBePlaced() throws GameTechnicalErrorException {
         //given
         Card card = new Card(Card.Rank.TEN, Card.Symbol.DIAMONDS);
 
@@ -90,7 +93,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void cardPlaceable_CardCannotBePlaced() {
+    public void cardPlaceable_CardCannotBePlaced() throws GameTechnicalErrorException {
         //given
         Card card = new Card(Card.Rank.TEN, Card.Symbol.HEARTS);
 
@@ -99,7 +102,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void checkIfCardHasGameRule_testNonRuleCard() {
+    public void checkIfCardHasGameRule_testNonRuleCard() throws GameTechnicalErrorException {
         //given
         Map<Card.Rank, String> ruleset = getRuleSet();
         Card normalCard = new Card(Card.Rank.KING, Card.Symbol.CLUBS);
@@ -112,7 +115,7 @@ public class GameRuleServiceTest {
     }
 
     @Test
-    public void checkIfCardHasGameRule_testRuleCard() {
+    public void checkIfCardHasGameRule_testRuleCard() throws GameTechnicalErrorException {
         //given
         Map<Card.Rank, String> ruleset = getRuleSet();
         Card ruleCard = new Card(Card.Rank.SEVEN, Card.Symbol.CLUBS);
