@@ -3,13 +3,13 @@ package de.htwberlin.playerManagement.export;
 import de.htwberlin.playerManagement.entity.Player;
 
 /**
- * The interface Player service.
+ * The interface for methods involving creating or changing a Player.
  */
 public interface PlayerService {
 
 
     /**
-     * Creates a player.
+     * Creates a new player.
      *
      * @param name the name of player
      * @return the configured player

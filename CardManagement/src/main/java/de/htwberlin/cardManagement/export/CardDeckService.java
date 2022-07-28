@@ -5,7 +5,7 @@ import de.htwberlin.cardManagement.entity.Card;
 import java.util.List;
 
 /**
- * The interface Card deck service.
+ * The interface for creating and changing card decks.
  */
 public interface CardDeckService {
 

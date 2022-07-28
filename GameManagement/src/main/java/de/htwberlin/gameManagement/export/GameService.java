@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * The interface for Game service.
+ * The interface for creating and changing the Game object.
  */
 public interface GameService {
 

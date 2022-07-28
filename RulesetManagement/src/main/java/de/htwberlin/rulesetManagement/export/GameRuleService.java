@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * The interface Game rule service.
+ * The interface for methods involving Game rules.
  */
 public interface GameRuleService {
 
@@ -29,7 +29,7 @@ public interface GameRuleService {
     boolean cardPlaceable(Card card, Card.Symbol symbol, Card.Rank rank) throws GameTechnicalErrorException;
 
     /**
-     * Check if card has a game action.
+     * Checks if card has a game rule. If the card has no game rule, an empty optional is given back.
      *
      * @param card the card
      * @return the game rule for the card
