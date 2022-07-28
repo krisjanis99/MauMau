@@ -1,12 +1,12 @@
 package de.htwberlin.gameManagement;
 
-import de.htwberlin.gameManagement.export.CardNotPlacedException;
-import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.gameManagement.export.GameService;
 import de.htwberlin.gameManagement.impl.GameServiceImpl;
+import de.htwberlin.playerManagement.entity.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

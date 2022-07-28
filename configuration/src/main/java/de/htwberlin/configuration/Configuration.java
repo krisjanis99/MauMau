@@ -1,13 +1,12 @@
 package de.htwberlin.configuration;
 
-import de.htwberlin.persistGameManagement.export.DAOService;
-import de.htwberlin.persistGameManagement.impl.DAOServiceImpl;
-import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.cardManagement.impl.CardDeckServiceImpl;
 import de.htwberlin.cardManagement.impl.CardServiceImpl;
+import de.htwberlin.gameManagement.impl.GameServiceImpl;
+import de.htwberlin.persistGameManagement.impl.DAOServiceImpl;
+import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import de.htwberlin.playerManagement.impl.PlayerServiceImpl;
 import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
-import de.htwberlin.gameManagement.impl.GameServiceImpl;
 import de.htwberlin.rulesetManagement.impl.GameRuleServiceImpl;
 import export.MauMauUi;
 import impl.MauMauUiController;

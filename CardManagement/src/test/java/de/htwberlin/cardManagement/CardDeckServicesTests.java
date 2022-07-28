@@ -84,7 +84,7 @@ public class CardDeckServicesTests {
         Card result = cardDeckService.getLastPlacedCardOnDeck(deck);
 
         //then
-        assertEquals(result, deck.get(deck.size()-1));
+        assertEquals(result, deck.get(deck.size() - 1));
     }
 
     @Test(expected = NoCardFoundException.class)

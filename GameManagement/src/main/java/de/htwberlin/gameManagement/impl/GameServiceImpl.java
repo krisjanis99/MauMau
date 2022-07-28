@@ -1,12 +1,12 @@
 package de.htwberlin.gameManagement.impl;
 
 
-import de.htwberlin.gameManagement.export.CardNotPlacedException;
-import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
 import de.htwberlin.cardManagement.export.CardDeckService;
 import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.gameManagement.export.CardNotPlacedException;
 import de.htwberlin.gameManagement.export.GameService;
+import de.htwberlin.playerManagement.entity.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,7 +70,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public Game placeCard(Game game, Card card) throws CardNotPlacedException {
-        if(game==null || card==null){
+        if (game == null || card == null) {
             throw new CardNotPlacedException("Arguments are null, please check your game or card valuse");
         }
         List<Card> gameCards = new ArrayList<>(game.getPlacedCardDeck());
@@ -99,7 +99,7 @@ public class GameServiceImpl implements GameService {
 
         List<Card> cards = List.copyOf(game.getCardDeck());
 
-        if (cards.isEmpty()){
+        if (cards.isEmpty()) {
             logger.info("No cards left in current Deck.  A new Deck will be added.");
             cards = cardDeckService.shuffleDeck(cardDeckService.getNewDeck());
         }

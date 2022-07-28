@@ -4,14 +4,11 @@ import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.PlayerService;
 import de.htwberlin.playerManagement.impl.PlayerServiceImpl;
-import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Optional;
-import java.util.Random;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 public class PlayerServiceTest {
@@ -20,7 +17,7 @@ public class PlayerServiceTest {
 
 
     @Before
-    public void setUp(){
+    public void setUp() {
         playerService = new PlayerServiceImpl();
     }
 

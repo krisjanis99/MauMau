@@ -1,14 +1,13 @@
 package de.htwberlin.playerManagement.impl;
 
-import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.VirtualPlayerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Random;
 
 public class VirtualPlayerServiceImpl implements VirtualPlayerService {
@@ -34,7 +33,7 @@ public class VirtualPlayerServiceImpl implements VirtualPlayerService {
             Player player = new Player(virtualPlayerName, new ArrayList<Card>(), false, true);
             logger.info("Virtual player created with the random name {}", virtualPlayerName);
             return player;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new PlayerCreationFailedException(String.format("Player couldn't be created: %s", e));
         }
 

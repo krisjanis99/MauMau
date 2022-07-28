@@ -1,7 +1,7 @@
 package de.htwberlin.playerManagement.impl;
 
-import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.playerManagement.export.PlayerCreationFailedException;
 import de.htwberlin.playerManagement.export.PlayerService;
 import org.apache.logging.log4j.LogManager;
@@ -16,10 +16,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player createPlayer(String name) throws PlayerCreationFailedException {
         try {
-            Player player = new Player( name, new ArrayList<Card>(), false, false);
+            Player player = new Player(name, new ArrayList<Card>(), false, false);
             logger.info("player created");
             return player;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new PlayerCreationFailedException(String.format("Player couldn't be created: %s", e));
         }
 

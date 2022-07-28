@@ -7,16 +7,16 @@ import de.htwberlin.playerManagement.impl.VirtualPlayerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class VirtualPlayerServiceTest {
 
     private VirtualPlayerService virtualPlayerService;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         virtualPlayerService = new VirtualPlayerServiceImpl(new Random());
     }
 

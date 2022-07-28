@@ -1,6 +1,7 @@
 package de.htwberlin.gameManagement.entity;
-import de.htwberlin.playerManagement.entity.Player;
+
 import de.htwberlin.cardManagement.entity.Card;
+import de.htwberlin.playerManagement.entity.Player;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,42 +16,30 @@ import java.util.List;
 @NoArgsConstructor
 public class Game {
 
-    @GeneratedValue
-    @Id
-    private Long id;
-
     int turnNumber;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "playerlist_id")
     List<Player> playerList;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "winnersrankedlist_id")
     List<Player> winnersRankedList;
-
     Boolean gameEnded;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "carddeck_id")
     List<Card> cardDeck;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "placedcarddeck_id")
     List<Card> placedCardDeck;
-
     @OneToOne(cascade = CascadeType.ALL)
     Player currentActivePlayer;
-
     String currentGameRule;
-
     int cardsToDraw;
-
     Boolean currentDirectionIsClockwise;
-
     Card.Symbol currentSymbol;
-
     Card.Rank currentRank;
+    @GeneratedValue
+    @Id
+    private Long id;
 
     public Game(List<Player> playerList, List<Card> cardDeck) {
         this.turnNumber = 0;

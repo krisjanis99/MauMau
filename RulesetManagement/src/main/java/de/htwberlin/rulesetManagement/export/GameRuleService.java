@@ -35,6 +35,6 @@ public interface GameRuleService {
      * @return the game rule for the card
      * @throws GameTechnicalErrorException thrown if a technical error happens
      */
-    Optional<String> checkIfCardHasGameRule(Card card) throws GameTechnicalErrorException ;
+    Optional<String> checkIfCardHasGameRule(Card card) throws GameTechnicalErrorException;
 
 }

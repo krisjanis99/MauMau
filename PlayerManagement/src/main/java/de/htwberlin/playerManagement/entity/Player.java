@@ -14,18 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Player {
 
+    String name;
+    @ManyToMany(cascade = CascadeType.ALL)
+    List<Card> playerCards;
+    Boolean hasCalledMau;
+    Boolean isVirtualPlayer;
     @GeneratedValue
     @Id
     private Long id;
-
-    String name;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    List<Card> playerCards;
-
-    Boolean hasCalledMau;
-
-    Boolean isVirtualPlayer;
 
     public Player(String name, List<Card> playerCards, Boolean hasCalledMau, Boolean isVirtualPlayer) {
         this.name = name;

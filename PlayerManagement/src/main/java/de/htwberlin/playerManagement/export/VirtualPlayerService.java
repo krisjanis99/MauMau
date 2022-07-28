@@ -2,8 +2,6 @@ package de.htwberlin.playerManagement.export;
 
 import de.htwberlin.playerManagement.entity.Player;
 
-import java.util.Optional;
-
 /**
  * The interface Virtual player move service.
  */

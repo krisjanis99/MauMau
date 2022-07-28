@@ -1,8 +1,8 @@
 package impl;
 
 
-import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.gameManagement.entity.Game;
+import de.htwberlin.playerManagement.entity.Player;
 import de.htwberlin.rulesetManagement.export.GameTechnicalErrorException;
 import export.GameInitialziationException;
 
@@ -17,7 +17,7 @@ public class MauMauUiView {
         reader = new Scanner(System.in);
     }
 
-    void printSep(){
+    void printSep() {
         System.out.println("........................................................................ ");
     }
 
@@ -30,7 +30,7 @@ public class MauMauUiView {
         printSep();
     }
 
-    int getUserInputAsInt(int min, int max)  {
+    int getUserInputAsInt(int min, int max) {
         System.out.printf("Enter a number between %d and %d: \n", min, max);
         int input = -1000;
         while (reader.hasNext()) {
@@ -63,13 +63,13 @@ public class MauMauUiView {
     }
 
     void printGameStartingMsg(List<Player> playerList) throws GameInitialziationException {
-        if(playerList ==null || playerList.size()<2 ){
+        if (playerList == null || playerList.size() < 2) {
             throw new GameInitialziationException("no enough players are present");
         }
         printSep();
         System.out.println("The game is about to start!");
         System.out.println("Here are the players which will play:");
-        for (Player player : playerList){
+        for (Player player : playerList) {
             System.out.println(player.getName());
         }
         printSep();
@@ -77,22 +77,22 @@ public class MauMauUiView {
         printSep();
     }
 
-    void printTurnStartingMessage(Game game) throws GameInitialziationException{
-        if(game == null){
+    void printTurnStartingMessage(Game game) throws GameInitialziationException {
+        if (game == null) {
             throw new GameInitialziationException("Game argument is null");
         }
         printSep();
         System.out.printf("Time for the next turn! It's turn %d. \n", game.getTurnNumber());
         System.out.printf("The player %s is up!\n", game.getCurrentActivePlayer().getName());
         System.out.printf("The last placed card was %s %s!\n", game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getSymbol(),
-        game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getRank());
+                game.getPlacedCardDeck().get(game.getPlacedCardDeck().size() - 1).getRank());
         System.out.printf("The current Symbol in game is %s!\n", game.getCurrentSymbol());
         System.out.printf("You will need to draw additional %d cards!\n", game.getCardsToDraw());
         printSep();
     }
 
     void printPlayerCards(Player currentPlayer) throws GameTechnicalErrorException {
-        if(currentPlayer.getPlayerCards().size() ==0){
+        if (currentPlayer.getPlayerCards().size() == 0) {
             throw new GameTechnicalErrorException("player has no cards");
         }
         printSep();
